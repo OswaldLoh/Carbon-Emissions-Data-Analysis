@@ -3,12 +3,10 @@
 
 // To run the code, enter in terminal:
 // cd  Array
-// g++ main.cpp arrayLoad.cpp -o output.exe      
-// ./output.exe
+// g++ *.cpp -o run   
+// ./run.exe
 
 using namespace std;
-
-int loadCSV(string path, Residents dataset[]);
 
 int main() {
     Residents dataA[FILE_A_SIZE];       // Initialize array of structs
@@ -19,7 +17,5 @@ int main() {
     loadCSV(FILE_B_PATH, dataB);
     loadCSV(FILE_C_PATH, dataC);
 
-    
-    
     return 0;
 }
