@@ -1,19 +1,24 @@
 #include <iostream>
 #include "../residentsList.h"
 
+// To run the code, enter in terminal:
+// cd  LinkedList
+// g++ *.cpp -o run   
+// ./run.exe
+
 using namespace std;
 
 int main() {
-    linkedList L1;
-    linkedList L2;
-    linkedList L3;
+    linkedList ListA;
+    linkedList ListB;
+    linkedList ListC;
 
-    loadCSV(FILE_A_PATH,L1);
-    loadCSV(FILE_B_PATH,L2);
-    loadCSV(FILE_C_PATH,L3);
+    loadCSV(FILE_A_PATH,ListA);
+    loadCSV(FILE_B_PATH,ListB);
+    loadCSV(FILE_C_PATH,ListC);
 
     cout << "hello";
-    Residents* current = L1.getHeadAddress();
+    Residents* current = ListA.getHeadAddress();
 
     while (current != nullptr) { 
         cout << current->ID << endl;
