@@ -1,3 +1,6 @@
+#ifndef LINKED_LIST
+#define LINKED_LIST
+
 #include <iostream>
 
 using namespace std;
@@ -17,8 +20,6 @@ struct Residents {
     Residents* nextAddress;     // Points the memory address for next node into "nextAddress"
 };
 
-#ifndef LINKED_LIST
-#define LINKED_LIST
 
 class linkedList {
     private:
@@ -29,7 +30,8 @@ class linkedList {
         void insertNode(string ID, int age, string mode, double distance, double carbon, double avg);
 };
 
-void loadCSV(string filepath, linkedList List);
+void loadCSV(string filepath, linkedList& List);
+
 #endif
 
 

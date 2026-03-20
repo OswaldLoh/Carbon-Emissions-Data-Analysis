@@ -5,8 +5,7 @@
 
 using namespace std;
 
-void loadCSV(string filepath, linkedList List) {
-    Residents* head = List.getHeadAddress();
+void loadCSV(string filepath, linkedList& List) {
     ifstream file(filepath);
     string line;
     getline(file,line);
@@ -19,5 +18,6 @@ void loadCSV(string filepath, linkedList List) {
         for (int i = 0; i<6; i++) {
             getline(lstream,tempData[i],',');
         }
+        List.insertNode(tempData[0],stoi(tempData[1]),tempData[2],stod(tempData[3]),stod(tempData[4]),stod(tempData[5]));
     }
 }

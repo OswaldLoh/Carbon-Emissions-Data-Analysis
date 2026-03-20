@@ -1,3 +1,6 @@
+#ifndef ARRAY
+#define ARRAY
+
 #include <iostream>
 using namespace std;
 
@@ -24,3 +27,4 @@ struct Residents {
 // Functions
 int loadCSV(string path, Residents dataset[]);
 
+#endif
