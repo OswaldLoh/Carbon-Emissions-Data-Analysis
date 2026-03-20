@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../residents.h"
+#include "../residentsArray.h"
 
 // To run the code, enter in terminal:
 // cd  Array
@@ -13,7 +13,7 @@ int main() {
     Residents dataB[FILE_B_SIZE];
     Residents dataC[FILE_C_SIZE];
 
-    loadCSV(FILE_A_PATH, dataA);        // Loading lines from CSV into array of structs
+    loadCSV(FILE_A_PATH, dataA);        // Loading lines from CSV into arrays
     loadCSV(FILE_B_PATH, dataB);
     loadCSV(FILE_C_PATH, dataC);
 
