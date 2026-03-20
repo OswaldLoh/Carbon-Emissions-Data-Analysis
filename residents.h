@@ -48,6 +48,8 @@ class linkedList {
 // Functions
 void loadCSVList(string filepath, linkedList& List);
 int loadCSVArray(string path, Residents array[]);
+int sortSelect(int structure);
+int structureSelect();
 
 #endif
 
