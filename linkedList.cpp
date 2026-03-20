@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../residentsList.h"
+#include "residents.h"
 
 using namespace std;
 
@@ -7,12 +7,12 @@ linkedList::linkedList() {
     headAddress = nullptr;
 }
 
-Residents* linkedList::getHeadAddress() {
+listResidents* linkedList::getHead() {
     return headAddress;
 }
 
 void linkedList::insertNode(string ID, int age, string mode, double distance, double carbon, double avg) {
-    Residents* newAddress = new Residents;
+    listResidents* newAddress = new listResidents;
     newAddress->ID = ID;
     newAddress->age = age;
     newAddress->mode = mode;
@@ -24,7 +24,7 @@ void linkedList::insertNode(string ID, int age, string mode, double distance, do
     if (headAddress == nullptr) {
         headAddress = newAddress;
     } else {
-        Residents* current = headAddress;
+        listResidents* current = headAddress;
         while (current->nextAddress != nullptr) {
             current = current->nextAddress;
         }

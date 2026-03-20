@@ -1,11 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "../residentsList.h"
+#include "residents.h"
 
 using namespace std;
 
-void loadCSV(string filepath, linkedList& List) {
+void loadCSVList(string filepath, linkedList& List) {
     ifstream file(filepath);
     string line;
     getline(file,line);

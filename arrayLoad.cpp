@@ -1,11 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "../residentsArray.h"
+#include "residents.h"
 
 using namespace std;
 
-int loadCSV(string path, Residents array[]) {
+int loadCSVArray(string path, Residents array[]) {
     ifstream file(path);
     string line;
     getline(file,line);

@@ -1,37 +1,53 @@
-#ifndef LINKED_LIST
-#define LINKED_LIST
+#ifndef HEADER
+#define HEADER
 
 #include <iostream>
 using namespace std;
+
+// Array Size
+const int FILE_A_SIZE = 200;        
+const int FILE_B_SIZE = 178;
+const int FILE_C_SIZE = 122;
 
 // Filepath
 const string FILE_A_PATH = "../Database/dataset1-cityA.csv";
 const string FILE_B_PATH = "../Database/dataset2-cityB.csv";
 const string FILE_C_PATH = "../Database/dataset3-cityC.csv";
 
-// Each node in linked list follow this structure
-struct Residents {
+// Each element in array
+struct Residents {                  
     string ID;
     int age;
     string mode;
     double distance;
     double carbon;
     double avg;
-    Residents* nextAddress;     // Points the memory address for next node into "nextAddress"
+};
+
+// Each node in linked list follow this structure
+struct listResidents {
+    string ID;
+    int age;
+    string mode;
+    double distance;
+    double carbon;
+    double avg;
+    listResidents* nextAddress;     // Points the memory address for next node into "nextAddress"
 };
 
 // Class declaration for Linked List
 class linkedList {
     private:
-        Residents* headAddress;
+        listResidents* headAddress;
     public:
         linkedList();
-        Residents* getHeadAddress();
+        listResidents* getHead();
         void insertNode(string ID, int age, string mode, double distance, double carbon, double avg);
 };
 
 // Functions
-void loadCSV(string filepath, linkedList& List);
+void loadCSVList(string filepath, linkedList& List);
+int loadCSVArray(string path, Residents array[]);
 
 #endif
 
