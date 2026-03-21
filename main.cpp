@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "residents.h"
 
 // To run the code, enter in terminal:
@@ -8,36 +9,10 @@
 
 using namespace std;
 
-
-int structureSelect() {
-    int structure;
-    bool valid = false;
-    cout << "Please choose data structure;" << endl;
-    cout << "1. Array" << endl;
-    cout << "2. Linked List" << endl;
-
-    while (!valid) {
-        cout << "Please enter a valid selection.";
-        cout << ">>>   ";
-        cin >> structure;
-        }
-    return structure;
-}
-
-int sortSelect(int structure) {
-    int sortSelection;
-    cout << "Please choose sorting method" << endl;
-    cout << "1. Bubble Sort" << endl;
-    cout << "2. Insert Sort" << endl;
-    cout << "3. Merge Sort" << endl;
-    cout << ">>>   ";
-    cin >> sortSelection;
-    
-    return 0;
-}
-    
 int main() {
     int decision;
+    bool valid = false;
+
     // Initialize Arrays
     Residents arrayA[FILE_A_SIZE];      
     Residents arrayB[FILE_B_SIZE];
@@ -53,14 +28,39 @@ int main() {
     loadCSVList(FILE_C_PATH,ListC);
 
     cout << "Choose operation:" << endl;
-    cout << "1. Sorting" << endl;
-    cout << "2. Searching" << endl;
-    cout << ">>>   ";
-    cin >> decision;
-    switch (decision) {
-        case 3:             // Sorting Algorithms
-            int structure = structureSelect();
-            int sortAlgo = sortSelect(structure);
+    cout << "1. Categorization" << endl;
+    cout << "2. Carbon Analysis" << endl;
+    cout << "3. Sorting" << endl;
+    cout << "4. Searching" << endl;
+
+    while (!valid) {
+        cout << ">>>   ";
+        cin >> decision;
+        switch (decision) {
+            case 1:
+                cout << "In Progress" << endl;
+                break;
+            case 2:
+                cout << "In Progress" << endl;
+                break;
+            case 3: {           // Sorting Algorithms
+                string city = citySelection();
+                string structure = structureSelect();
+                string algo = sortSelect();
+                string category = sortBy();
+                break;
+                }
+            case 4:
+                cout << "In progress" << endl;
+                break;
+            }
+            if (cin.fail() || decision > 4 || decision < 1) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid option. Please try again." << endl;
+            } else {
+                valid = true;
+            }
     }
     return 0;
 }
