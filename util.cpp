@@ -15,7 +15,7 @@ string citySelection() {
     while (!valid) {
         cout << ">>>   ";
         cin >> selection;
-        if (cin.fail() || selection > 4 || selection << 1) {
+        if (cin.fail() || selection > 4 || selection < 1) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Invalid input. Please try again." << endl;
@@ -56,10 +56,13 @@ string sortBy() {
     switch (selection) {
         case 1:
             category = "Age";
+            break;
         case 2:
             category = "Distance";
+            break;
         case 3:
             category = "Carbon";
+            break;
     }
     return category;
 }
@@ -85,14 +88,17 @@ string structureSelect() {
     switch (selection) {
         case 1:
             structure = "Array";
+            break;
         case 2:
             structure = "LinkedList";
+            break;
     }
     return structure;
 }
 
 string sortSelect() {
     int selection;
+    string sort;
     bool valid = false;
     cout << "Please choose sorting method" << endl;
     cout << "1. Bubble Sort" << endl;
@@ -110,5 +116,16 @@ string sortSelect() {
             valid = true;
         }
     }
-    return 0;
+    switch (selection) {
+        case 1:
+            sort = "Bubble";
+            break;
+        case 2:
+            sort = "Insert";
+            break;
+        case 3:
+            sort = "Merge";
+            break;
+    }
+    return sort;
 }

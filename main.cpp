@@ -36,6 +36,13 @@ int main() {
     while (!valid) {
         cout << ">>>   ";
         cin >> decision;
+        if (cin.fail() || decision > 4 || decision < 1) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid option. Please try again." << endl;
+            } else {
+                valid = true;
+            }
         switch (decision) {
             case 1:
                 cout << "In Progress" << endl;
@@ -53,13 +60,6 @@ int main() {
             case 4:
                 cout << "In progress" << endl;
                 break;
-            }
-            if (cin.fail() || decision > 4 || decision < 1) {
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Invalid option. Please try again." << endl;
-            } else {
-                valid = true;
             }
     }
     return 0;
