@@ -3,11 +3,12 @@
 #include "residents.h"
 
 // To run the code, enter in terminal:
-// cd  Array
 // g++ *.cpp -o run   
 // ./run.exe
 
 using namespace std;
+
+
 
 int main() {
     int decision;
@@ -17,6 +18,14 @@ int main() {
     Residents arrayA[FILE_A_SIZE];      
     Residents arrayB[FILE_B_SIZE];
     Residents arrayC[FILE_C_SIZE];
+
+    Array arrays[] = {
+        {"A",arrayA,FILE_A_SIZE},
+        {"B",arrayB,FILE_B_SIZE},
+        {"C",arrayC,FILE_C_SIZE}
+    };
+
+    
     loadCSVArray(FILE_A_PATH, arrayA);        // Loading lines from CSV into arrays
     loadCSVArray(FILE_B_PATH, arrayB);
     loadCSVArray(FILE_C_PATH, arrayC);
@@ -51,10 +60,11 @@ int main() {
                 cout << "In Progress" << endl;
                 break;
             case 3: {           // Sorting Algorithms
-                string city = citySelection();
+                Array city = citySelection(arrays,3);
+                string category = sortBy();
                 string structure = structureSelect();
                 string algo = sortSelect();
-                string category = sortBy();
+                sorting(structure,algo,city,category);
                 break;
                 }
             case 4:

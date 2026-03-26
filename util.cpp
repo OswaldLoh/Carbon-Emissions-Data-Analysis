@@ -4,9 +4,8 @@
 
 using namespace std;
 
-string citySelection() {    
+Array citySelection(Array* arrays, int size) {    
     int selection;
-    string city;
     bool valid = false;
     cout << "City Selection:" << endl;
     cout << "1. City A" << endl;
@@ -25,14 +24,13 @@ string citySelection() {
     }
     switch (selection) {
         case 1:
-            city = "A";
+            return arrays[0];
         case 2:
-            city = "B";
+            return arrays[1];
         case 3:
-            city = "C";
+            return arrays[2];
     }
-return city;
-
+    return arrays[0];
 }
 
 string sortBy() {
@@ -46,7 +44,7 @@ string sortBy() {
     while (!valid) {
         cout << ">>>   ";
         cin >> selection;
-        if (cin.fail() || selection > 3 || selection << 1) {
+        if (cin.fail() || selection > 3 || selection < 1) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         } else {
@@ -64,6 +62,7 @@ string sortBy() {
             category = "Carbon";
             break;
     }
+    cout << "hello!";
     return category;
 }
 

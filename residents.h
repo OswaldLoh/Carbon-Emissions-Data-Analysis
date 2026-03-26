@@ -10,9 +10,9 @@ const int FILE_B_SIZE = 178;
 const int FILE_C_SIZE = 122;
 
 // Filepath
-const string FILE_A_PATH = "../Database/dataset1-cityA.csv";
-const string FILE_B_PATH = "../Database/dataset2-cityB.csv";
-const string FILE_C_PATH = "../Database/dataset3-cityC.csv";
+const string FILE_A_PATH = "Database/dataset1-cityA.csv";
+const string FILE_B_PATH = "Database/dataset2-cityB.csv";
+const string FILE_C_PATH = "Database/dataset3-cityC.csv";
 
 // Each element in array
 struct Residents {                  
@@ -22,6 +22,13 @@ struct Residents {
     double distance;
     double carbon;
     double avg;
+};
+
+// Container for all arrays
+struct Array {
+    string name;
+    Residents* array;
+    int size;
 };
 
 // Each node in linked list follow this structure
@@ -51,8 +58,9 @@ int loadCSVArray(string path, Residents array[]);
 string sortSelect();
 string structureSelect();
 string sortBy();
-string citySelection();
-
+Array citySelection(Array* arrays, int size);
+void sorting(string structure, string algo, Array city, string category);
+void sortBubbleArray(Residents *array, int size, string category);
 #endif
 
 

@@ -1,26 +1,55 @@
 #include <iostream>
 #include <limits>
+#include <functional>
+#include <iomanip>
 #include "residents.h"
 
 using namespace std;
 
-int sortBubbleArray(Residents array[], int size) {
-    string category = sortBy();
-    bool swapped;
+void sorting(string structure, string algo, Array city, string category) {
+    if (structure == "Array") {
+        if (algo == "Bubble") {
+            sortBubbleArray(city.array, city.size, category);
+        } else if (algo == "Insert") {
+
+        } else if (algo == "Merge") {
+
+        }
+    } else if (structure == "LinkedList") {   
+        
+    }
+}
+
+
+void sortBubbleArray(Residents *array, int size, string category) {
+
+    function<bool(const Residents&, const Residents&)> compare;
+
     if (category == "Age") {
-        for (int i = 0; i < size-1; i++) {
-            swapped = false;
-            for (int j = 0; j < size-i-1; j++) {
-                if (array[j].age > array[j+1].age) {
-                    swap(array[j], array[j + 1]);
-                    swapped = true;
-                }
-            }
-        }
-        for (int i = 0; i < size; i++) {
-            cout << array[i].ID + "       " << array[i].carbon;
-        }
+        compare = [](const Residents& a, const Residents& b) {
+            return a.age > b.age;
+        };
+    } else if (category == "Distance") {
+        compare = [](const Residents&a, const Residents& b) {
+            return a.distance > b.distance;
+        };
+    } else if (category == "Carbon") {
+        compare = [](const Residents&a, const Residents& b) {
+            return a.carbon > b.carbon;
+        };
     }
 
-    return 0;
+    bool swapped;
+    for (int i = 0; i < size-1; i++) {
+        swapped = false;
+        for (int j = 0; j < size-i-1; j++) {
+            if (compare(array[j], array[j+1])) {
+                swap(array[j], array[j + 1]);
+                swapped = true;
+            }
+        }
+    }
+    for (int i = 0; i < size; i++) {
+        cout << i+1 << ".        "  << array[i].distance << endl;
+    }
 }
