@@ -14,6 +14,7 @@ const string FILE_A_PATH = "Database/dataset1-cityA.csv";
 const string FILE_B_PATH = "Database/dataset2-cityB.csv";
 const string FILE_C_PATH = "Database/dataset3-cityC.csv";
 
+
 // Each element in array
 struct Residents {                  
     string ID;
@@ -61,6 +62,9 @@ string sortBy();
 Array citySelection(Array* arrays, int size);
 void sorting(string structure, string algo, Array city, string category);
 void sortBubbleArray(Residents *array, int size, string category);
+void categorizeArray(Residents array[], int size);
+void categorizeList(linkedList& list);
+
 #endif
 
 

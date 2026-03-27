@@ -26,9 +26,9 @@ int main() {
     };
 
     
-    loadCSVArray(FILE_A_PATH, arrayA);        // Loading lines from CSV into arrays
-    loadCSVArray(FILE_B_PATH, arrayB);
-    loadCSVArray(FILE_C_PATH, arrayC);
+    int sizeA = loadCSVArray(FILE_A_PATH, arrayA);        // Loading lines from CSV into arrays
+    int sizeB = loadCSVArray(FILE_B_PATH, arrayB);
+    int sizeC = loadCSVArray(FILE_C_PATH, arrayC);
 
     // Initialize Linked Lists
     linkedList ListA, ListB, ListC;
@@ -53,12 +53,25 @@ int main() {
                 valid = true;
             }
         switch (decision) {
-            case 1:             // Categorization
+            case 1:{
+                Array selectedCity = citySelection(arrays, 3); 
+                string structure = structureSelect();
+
+                if (structure == "Array") {
+                    // Access the pointer and size directly from the struct
+                    categorizeArray(selectedCity.array, selectedCity.size); 
+                } else {
+                    // Map the struct name back to the correct Linked List
+                    if (selectedCity.name == "A") categorizeList(ListA);
+                    else if (selectedCity.name == "B") categorizeList(ListB);
+                    else categorizeList(ListC);
+                }
+                break;
+            }
+            case 2: {            // Carbon Analysis
                 cout << "In Progress" << endl;
                 break;
-            case 2:             // Carbon Analysis
-                cout << "In Progress" << endl;
-                break;
+                }
             case 3: {           // Sorting Algorithms
                 Array city = citySelection(arrays,3);
                 string category = sortBy();
@@ -67,11 +80,13 @@ int main() {
                 sorting(structure,algo,city,category);
                 break;
                 }
-            case 4:
+            case 4:{
                 cout << "In progress" << endl;
                 break;
             }
-    }
+            
+        }
     return 0;
+}
 }
 

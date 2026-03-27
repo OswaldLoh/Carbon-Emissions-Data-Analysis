@@ -26,6 +26,6 @@ int loadCSVArray(string path, Residents array[]) {
         array[index].avg = stod(tempData[5]);
         index++;
     };
-    return 0;
+    return index;
 }
 
