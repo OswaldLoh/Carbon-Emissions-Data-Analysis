@@ -35,10 +35,6 @@ int main() {
         {"C",ListC,arrayC,FILE_C_SIZE}
     };
 
-
-
-
-
     cout << "Choose operation:" << endl;
     cout << "1. Categorization" << endl;
     cout << "2. Carbon Analysis" << endl;
@@ -65,9 +61,8 @@ int main() {
                     categorizeArray(selectedCity.array, selectedCity.size); 
                 } else {
                     // Map the struct name back to the correct Linked List
-                    if (selectedCity.name == "A") categorizeList(ListA);
-                    else if (selectedCity.name == "B") categorizeList(ListB);
-                    else categorizeList(ListC);
+                    categorizeList(selectedCity.list);
+                    // !! Simplified the code after adding list into the main container !!
                 }
                 break;
             }
