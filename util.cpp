@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <iomanip>
 #include "residents.h"
 
 using namespace std;
@@ -127,4 +128,49 @@ string algoSelect() {
             break;
     }
     return sort;
+}
+
+void printArray(Residents* array, int size) {
+    cout << "-------------------------------------------" << endl;
+    cout << left 
+    << setw(7) << "No." 
+    << setw(10) << "ID" 
+    << setw(7) << "Age" 
+    << setw(10) << "Carbon" 
+    << setw(15) << "Distance" << endl;
+    cout << "-------------------------------------------" << endl;
+
+    for (int i = 0; i < size; i++) {
+        string number  = to_string(i+1);
+        cout << left 
+        << setw(7) << number + "." 
+        << setw(10) << array[i].ID 
+        << setw(7) << array[i].age 
+        << setw(10) << array[i].carbon 
+        << setw(15) << array[i].distance << endl;
+    }
+}
+
+void printList(listResidents* head) {
+    listResidents* currNode = head;
+    int count = 1;
+    cout << "-------------------------------------------" << endl;
+    cout << left 
+         << setw(7) << "No." 
+         << setw(10) << "ID" 
+         << setw(7) << "Age" 
+         << setw(10) << "Carbon" 
+         << setw(15) << "Distance" << endl;
+    cout << "-------------------------------------------" << endl;
+    while (currNode != nullptr) {
+        string number = to_string(count);
+        cout << left 
+            << setw(7) << number + "." 
+            << setw(10) << currNode->ID 
+            << setw(7) << currNode->age 
+            << setw(10) << currNode->carbon 
+            << setw(15) << currNode->distance << endl;
+        currNode = currNode->nextAddress;
+        count++;
+    }
 }

@@ -25,13 +25,6 @@ struct Residents {
     double avg;
 };
 
-// Container for all arrays
-struct Array {
-    string name;
-    Residents* array;
-    int size;
-};
-
 // Each node in linked list follow this structure
 struct listResidents {
     string ID;
@@ -51,10 +44,20 @@ class linkedList {
         linkedList();               // Constructor
         int getSize();
         listResidents* getHead();
+        void setHead(listResidents* newAddress);
         void insertNode(string ID, int age, string mode, double distance, double carbon, double avg);
 };
 
+// Container for all cities and their respective linked list and arrays
+struct Array {
+    string name;
+    linkedList list;
+    Residents* array;
+    int size;
+};
+
 // Functions
+
 void loadCSVList(string filepath, linkedList& List);
 int loadCSVArray(string path, Residents array[]);
 string algoSelect();
@@ -65,6 +68,9 @@ void sorting(string structure, string algo, Array city, string category);
 void sortBubbleArray(Residents *array, int size, string category);
 void categorizeArray(Residents array[], int size);
 void categorizeList(linkedList& list);
+void sortBubbleList(linkedList& list, string category);
+void printArray(Residents* array, int size);
+void printList(listResidents* head);
 
 #endif
 

@@ -18,23 +18,26 @@ int main() {
     Residents arrayA[FILE_A_SIZE];      
     Residents arrayB[FILE_B_SIZE];
     Residents arrayC[FILE_C_SIZE];
-
-    Array arrays[] = {
-        {"A",arrayA,FILE_A_SIZE},           // Array that contains all arrays
-        {"B",arrayB,FILE_B_SIZE},
-        {"C",arrayC,FILE_C_SIZE}
-    };
-
-    
-    int sizeA = loadCSVArray(FILE_A_PATH, arrayA);        // Loading lines from CSV into arrays
-    int sizeB = loadCSVArray(FILE_B_PATH, arrayB);
-    int sizeC = loadCSVArray(FILE_C_PATH, arrayC);
+    loadCSVArray(FILE_A_PATH, arrayA);        // Loading lines from CSV into arrays
+    loadCSVArray(FILE_B_PATH, arrayB);
+    loadCSVArray(FILE_C_PATH, arrayC);
 
     // Initialize Linked Lists
     linkedList ListA, ListB, ListC;
     loadCSVList(FILE_A_PATH,ListA);
     loadCSVList(FILE_B_PATH,ListB);
     loadCSVList(FILE_C_PATH,ListC);
+
+    // Array to contain linked list and array of each city
+    Array cities[] = {
+        {"A",ListA,arrayA,FILE_A_SIZE},           // Array that contains all arrays
+        {"B",ListB,arrayB,FILE_B_SIZE},
+        {"C",ListC,arrayC,FILE_C_SIZE}
+    };
+
+
+
+
 
     cout << "Choose operation:" << endl;
     cout << "1. Categorization" << endl;
@@ -54,7 +57,7 @@ int main() {
             }
         switch (decision) {
             case 1:{
-                Array selectedCity = citySelection(arrays, 3); 
+                Array selectedCity = citySelection(cities, 4); 
                 string structure = structureSelect();
 
                 if (structure == "Array") {
@@ -73,7 +76,7 @@ int main() {
                 break;
                 }
             case 3: {           // Sorting Algorithms
-                Array city = citySelection(arrays,3);
+                Array city = citySelection(cities,4);
                 string category = sortBy();
                 string structure = structureSelect();
                 string algo = algoSelect();

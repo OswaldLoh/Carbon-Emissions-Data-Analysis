@@ -17,7 +17,7 @@ void sorting(string structure, string algo, Array city, string category) {
         }
     } else if (structure == "LinkedList") {   
         if (algo == "Bubble") {
-
+            sortBubbleList(city.list,category);
         } else if (algo == "Insert") {
 
         } else if (algo == "Merge") {
@@ -30,9 +30,9 @@ void sortBubbleList(linkedList& list, string category) {
     listResidents* head = list.getHead();
     int size = list.getSize();
     int i = 0;
-    bool swapped;
 
     while (i < size) {
+        bool swapped = false;
         listResidents* currNode = head;
         listResidents* prevNode = head;
   
@@ -45,7 +45,8 @@ void sortBubbleList(linkedList& list, string category) {
                     currNode->nextAddress = temp->nextAddress; // cur.nextAddress lets go of 5 and point to 10
                     temp->nextAddress = currNode; // temp (5) next address lets go of 10 and points to 99
                     prevNode = temp;              // prevNode is now temp (5)
-                    head = prevNode;             
+                    head = prevNode;
+                    list.setHead(head);          
                 } else {
                     currNode->nextAddress = temp->nextAddress;  // currNode(9) lets go of 7 and points to 21
                     temp->nextAddress = currNode; // temp (7) points back to 9 (swap happens)
@@ -59,9 +60,10 @@ void sortBubbleList(linkedList& list, string category) {
         }
         if (!swapped) {
             break;
-        }
+            }
         i++;
     }
+    printList(head);
 }
 
 void sortBubbleArray(Residents *array, int size, string category) {
@@ -89,22 +91,7 @@ void sortBubbleArray(Residents *array, int size, string category) {
             }
         }
     }
-    cout << "-------------------------------------------" << endl;
-    cout << left 
-    << setw(7) << "No." 
-    << setw(10) << "ID" 
-    << setw(7) << "Age" 
-    << setw(10) << "Carbon" 
-    << setw(15) << "Distance" << endl;
-    cout << "-------------------------------------------" << endl;
-
-    for (int i = 0; i < size; i++) {
-        string number  = to_string(i+1);
-        cout << left 
-        << setw(7) << number + "." 
-        << setw(10) << array[i].ID 
-        << setw(7) << array[i].age 
-        << setw(10) << array[i].carbon 
-        << setw(15) << array[i].distance << endl;
-    }
+    printArray(array,size);
 }
+
+

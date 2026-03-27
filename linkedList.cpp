@@ -10,11 +10,15 @@ linkedList::linkedList() {
 int linkedList::getSize() {
     int size = 0;
     listResidents* current = headAddress;
-    while (headAddress != nullptr) {
+    while (current != nullptr) {
         size++;
         current = current->nextAddress;
     }
     return size;
+}
+
+void linkedList::setHead(listResidents* newAddress) {
+    headAddress = newAddress;
 }
 
 listResidents* linkedList::getHead() {
