@@ -76,7 +76,7 @@ int main() {
                 Array city = citySelection(arrays,3);
                 string category = sortBy();
                 string structure = structureSelect();
-                string algo = sortSelect();
+                string algo = algoSelect();
                 sorting(structure,algo,city,category);
                 break;
                 }

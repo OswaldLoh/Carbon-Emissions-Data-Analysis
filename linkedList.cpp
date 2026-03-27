@@ -7,6 +7,16 @@ linkedList::linkedList() {
     headAddress = nullptr;
 }
 
+int linkedList::getSize() {
+    int size = 0;
+    listResidents* current = headAddress;
+    while (headAddress != nullptr) {
+        size++;
+        current = current->nextAddress;
+    }
+    return size;
+}
+
 listResidents* linkedList::getHead() {
     return headAddress;
 }

@@ -48,7 +48,8 @@ class linkedList {
     private:
         listResidents* headAddress;
     public:
-        linkedList();
+        linkedList();               // Constructor
+        int getSize();
         listResidents* getHead();
         void insertNode(string ID, int age, string mode, double distance, double carbon, double avg);
 };
@@ -56,7 +57,7 @@ class linkedList {
 // Functions
 void loadCSVList(string filepath, linkedList& List);
 int loadCSVArray(string path, Residents array[]);
-string sortSelect();
+string algoSelect();
 string structureSelect();
 string sortBy();
 Array citySelection(Array* arrays, int size);

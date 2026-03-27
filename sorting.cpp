@@ -16,16 +16,56 @@ void sorting(string structure, string algo, Array city, string category) {
 
         }
     } else if (structure == "LinkedList") {   
-        
+        if (algo == "Bubble") {
+
+        } else if (algo == "Insert") {
+
+        } else if (algo == "Merge") {
+
+        }
     }
 }
 
+void sortBubbleList(linkedList& list, string category) {
+    listResidents* head = list.getHead();
+    int size = list.getSize();
+    int i = 0;
+    bool swapped;
+
+    while (i < size) {
+        listResidents* currNode = head;
+        listResidents* prevNode = head;
+  
+        // [99,5,10,9,7,21]
+        while (currNode->nextAddress != nullptr) {
+            listResidents* temp = currNode->nextAddress;
+            if (currNode->age > temp->age) {
+                swapped = true;
+                if (currNode == head) {
+                    currNode->nextAddress = temp->nextAddress; // cur.nextAddress lets go of 5 and point to 10
+                    temp->nextAddress = currNode; // temp (5) next address lets go of 10 and points to 99
+                    prevNode = temp;              // prevNode is now temp (5)
+                    head = prevNode;             
+                } else {
+                    currNode->nextAddress = temp->nextAddress;  // currNode(9) lets go of 7 and points to 21
+                    temp->nextAddress = currNode; // temp (7) points back to 9 (swap happens)
+                    prevNode->nextAddress = temp; // prevNode.nextAddress lets go of 9 and points to temp (7)
+                    prevNode = temp;              // curr node progress to 9, so previous should be 7
+                }
+                continue;
+            } // No swap occur
+            prevNode = currNode;
+            currNode = currNode->nextAddress;
+        }
+        if (!swapped) {
+            break;
+        }
+        i++;
+    }
+}
 
 void sortBubbleArray(Residents *array, int size, string category) {
-
-
     function<bool(const Residents&, const Residents&)> compare;
-
     if (category == "Age") {
         compare = [](const Residents& a, const Residents& b) {
             return a.age > b.age;
@@ -39,7 +79,6 @@ void sortBubbleArray(Residents *array, int size, string category) {
             return a.carbon > b.carbon;
         };
     }
-
     bool swapped;
     for (int i = 0; i < size-1; i++) {
         swapped = false;

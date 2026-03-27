@@ -95,7 +95,7 @@ string structureSelect() {
     return structure;
 }
 
-string sortSelect() {
+string algoSelect() {
     int selection;
     string sort;
     bool valid = false;
