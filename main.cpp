@@ -20,7 +20,7 @@ int main() {
     Residents arrayC[FILE_C_SIZE];
 
     Array arrays[] = {
-        {"A",arrayA,FILE_A_SIZE},
+        {"A",arrayA,FILE_A_SIZE},           // Array that contains all arrays
         {"B",arrayB,FILE_B_SIZE},
         {"C",arrayC,FILE_C_SIZE}
     };
@@ -53,10 +53,10 @@ int main() {
                 valid = true;
             }
         switch (decision) {
-            case 1:
+            case 1:             // Categorization
                 cout << "In Progress" << endl;
                 break;
-            case 2:
+            case 2:             // Carbon Analysis
                 cout << "In Progress" << endl;
                 break;
             case 3: {           // Sorting Algorithms

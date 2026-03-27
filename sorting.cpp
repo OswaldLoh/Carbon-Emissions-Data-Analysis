@@ -23,6 +23,7 @@ void sorting(string structure, string algo, Array city, string category) {
 
 void sortBubbleArray(Residents *array, int size, string category) {
 
+
     function<bool(const Residents&, const Residents&)> compare;
 
     if (category == "Age") {
@@ -49,7 +50,22 @@ void sortBubbleArray(Residents *array, int size, string category) {
             }
         }
     }
+    cout << "-------------------------------------------" << endl;
+    cout << left 
+    << setw(7) << "No." 
+    << setw(10) << "ID" 
+    << setw(7) << "Age" 
+    << setw(10) << "Carbon" 
+    << setw(15) << "Distance" << endl;
+    cout << "-------------------------------------------" << endl;
+
     for (int i = 0; i < size; i++) {
-        cout << i+1 << ".        "  << array[i].distance << endl;
+        string number  = to_string(i+1);
+        cout << left 
+        << setw(7) << number + "." 
+        << setw(10) << array[i].ID 
+        << setw(7) << array[i].age 
+        << setw(10) << array[i].carbon 
+        << setw(15) << array[i].distance << endl;
     }
 }
