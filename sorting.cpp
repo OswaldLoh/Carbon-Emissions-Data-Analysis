@@ -26,10 +26,41 @@ void sorting(string structure, string algo, Array city, string category) {
     }
 }
 
+template <typename type>
+function<bool(const type&, const type&)> comparator(string category) {
+    if (category == "Age") {
+        return [](const type& a, const type& b) {
+            return a.age > b.age;
+        };
+    } else if (category == "Distance") {
+        return [](const type& a, const type& b) {
+            return a.distance > b.distance;
+        };
+    }
+    return [](const type& a, const type& b) {
+        return a.carbon > b.carbon;
+    };
+}
+
 void sortBubbleList(linkedList& list, string category) {
     listResidents* head = list.getHead();
     int size = list.getSize();
     int i = 0;
+
+    auto compare = comparator<listResidents>(category);
+    if (category == "Age") {
+        compare = [](const listResidents& a, const listResidents& b) {
+            return a.age > b.age;
+        };
+    } else if (category == "Distance") {
+        compare = [](const listResidents&a, const listResidents& b) {
+            return a.distance > b.distance;
+        };
+    } else if (category == "Carbon") {
+        compare = [](const listResidents&a, const listResidents& b) {
+            return a.carbon > b.carbon;
+        };
+    }
 
     while (i < size) {
         bool swapped = false;
@@ -39,7 +70,7 @@ void sortBubbleList(linkedList& list, string category) {
         // [99,5,10,9,7,21]
         while (currNode->nextAddress != nullptr) {
             listResidents* temp = currNode->nextAddress;
-            if (currNode->age > temp->age) {
+            if (compare(*currNode,*temp)) {
                 swapped = true;
                 if (currNode == head) {
                     currNode->nextAddress = temp->nextAddress; // cur.nextAddress lets go of 5 and point to 10
@@ -67,20 +98,7 @@ void sortBubbleList(linkedList& list, string category) {
 }
 
 void sortBubbleArray(Residents *array, int size, string category) {
-    function<bool(const Residents&, const Residents&)> compare;
-    if (category == "Age") {
-        compare = [](const Residents& a, const Residents& b) {
-            return a.age > b.age;
-        };
-    } else if (category == "Distance") {
-        compare = [](const Residents&a, const Residents& b) {
-            return a.distance > b.distance;
-        };
-    } else if (category == "Carbon") {
-        compare = [](const Residents&a, const Residents& b) {
-            return a.carbon > b.carbon;
-        };
-    }
+    auto compare = comparator<Residents>(category);
     bool swapped;
     for (int i = 0; i < size-1; i++) {
         swapped = false;
