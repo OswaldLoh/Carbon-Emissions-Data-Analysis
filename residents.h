@@ -71,6 +71,8 @@ void categorizeList(linkedList& list);
 void sortBubbleList(linkedList& list, string category);
 void printArray(Residents* array, int size);
 void printList(listResidents* head);
+void sortInsertArray(Residents* array, int size, string category);
+void sortInsertList(linkedList& list, string category);
 
 #endif
 

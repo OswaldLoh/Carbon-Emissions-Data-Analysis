@@ -6,25 +6,6 @@
 
 using namespace std;
 
-void sorting(string structure, string algo, Array city, string category) {
-    if (structure == "Array") {
-        if (algo == "Bubble") {
-            sortBubbleArray(city.array, city.size, category);
-        } else if (algo == "Insert") {
-
-        } else if (algo == "Merge") {
-
-        }
-    } else if (structure == "LinkedList") {   
-        if (algo == "Bubble") {
-            sortBubbleList(city.list,category);
-        } else if (algo == "Insert") {
-
-        } else if (algo == "Merge") {
-
-        }
-    }
-}
 
 template <typename type>
 function<bool(const type&, const type&)> comparator(string category) {
@@ -42,25 +23,73 @@ function<bool(const type&, const type&)> comparator(string category) {
     };
 }
 
+
+void sorting(string structure, string algo, Array city, string category) {
+    if (structure == "Array") {
+        if (algo == "Bubble") {
+            sortBubbleArray(city.array, city.size, category);
+        } else if (algo == "Insert") {
+            sortInsertArray(city.array, city.size, category);
+        } else if (algo == "Merge") {
+
+        }
+    } else if (structure == "LinkedList") {   
+        if (algo == "Bubble") {
+            sortBubbleList(city.list,category);
+        } else if (algo == "Insert") {
+            sortInsertList(city.list,category);
+        } else if (algo == "Merge") {
+
+        }
+    }
+}
+void sortInsertList(linkedList& list, string category) {
+    listResidents*head = list.getHead();
+    int size = list.getSize();
+    auto compare = comparator<listResidents>(category);
+    int i = 0;
+
+    listResidents* key = head->nextAddress;
+    listResidents* compareNode = head;
+    listResidents* temp = head;
+    
+    while(key->nextAddress !=nullptr) {
+        compareNode = head;
+        while(compare(*compareNode, *key)) {
+            temp = compareNode->nextAddress;
+            compareNode->nextAddress = key;
+            compareNode = temp;
+            key->nextAddress = compareNode->nextAddress;
+        }
+        key = key->nextAddress;
+    }
+    
+    cout << "hello";
+    printList(head);
+}
+
+void sortInsertArray(Residents* array, int size, string category) {
+    auto compare = comparator<Residents>(category);
+    bool swapped = false;
+    for (int i=1; i<size; i++) {
+        Residents key = array[i];
+        int j = i - 1;
+
+        while (j>=0 && compare(array[j],key)) {
+            array[j+1] = array[j];
+            j = j - 1;
+        }
+        array[j+1] = key;
+    }
+    printArray(array,size);
+}
+
 void sortBubbleList(linkedList& list, string category) {
     listResidents* head = list.getHead();
     int size = list.getSize();
     int i = 0;
 
     auto compare = comparator<listResidents>(category);
-    if (category == "Age") {
-        compare = [](const listResidents& a, const listResidents& b) {
-            return a.age > b.age;
-        };
-    } else if (category == "Distance") {
-        compare = [](const listResidents&a, const listResidents& b) {
-            return a.distance > b.distance;
-        };
-    } else if (category == "Carbon") {
-        compare = [](const listResidents&a, const listResidents& b) {
-            return a.carbon > b.carbon;
-        };
-    }
 
     while (i < size) {
         bool swapped = false;
