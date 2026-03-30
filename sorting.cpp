@@ -43,29 +43,33 @@ void sorting(string structure, string algo, Array city, string category) {
         }
     }
 }
+
 void sortInsertList(linkedList& list, string category) {
     listResidents*head = list.getHead();
     int size = list.getSize();
     auto compare = comparator<listResidents>(category);
-    int i = 0;
+    if (!head || !head->nextAddress) return;
+    listResidents* sorted = nullptr;
+    listResidents* current = head;
 
-    listResidents* key = head->nextAddress;
-    listResidents* compareNode = head;
-    listResidents* temp = head;
-    
-    while(key->nextAddress !=nullptr) {
-        compareNode = head;
-        while(compare(*compareNode, *key)) {
-            temp = compareNode->nextAddress;
-            compareNode->nextAddress = key;
-            compareNode = temp;
-            key->nextAddress = compareNode->nextAddress;
-        }
-        key = key->nextAddress;
+    while (current != nullptr) {
+        listResidents* next = current->nextAddress;
+
+        if (sorted == nullptr || compare(*sorted, *current)) {
+            current->nextAddress = sorted;
+            sorted = current;
+        } else {
+            listResidents* cNode = sorted;
+            while (cNode->nextAddress != nullptr && !compare(*cNode->nextAddress,*current)) {
+                cNode = cNode->nextAddress;
+            }
+            current->nextAddress = cNode->nextAddress;
+            cNode->nextAddress = current;
+        }  
+        current = next;
     }
-    
-    cout << "hello";
-    printList(head);
+    list.setHead(sorted);
+    printList(sorted);
 }
 
 void sortInsertArray(Residents* array, int size, string category) {
