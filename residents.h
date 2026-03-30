@@ -73,6 +73,8 @@ void printArray(Residents* array, int size);
 void printList(listResidents* head);
 void sortInsertArray(Residents* array, int size, string category);
 void sortInsertList(linkedList& list, string category);
+void merge(Residents* array, int indexL, int indexR, string category);
+void mergeSort(Residents* array, int indexL, int indexM, int indexR, string category);
 
 #endif
 

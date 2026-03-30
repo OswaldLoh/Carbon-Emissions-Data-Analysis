@@ -23,21 +23,25 @@ function<bool(const type&, const type&)> comparator(string category) {
     };
 }
 
-
 void sorting(string structure, string algo, Array city, string category) {
     if (structure == "Array") {
         if (algo == "Bubble") {
             sortBubbleArray(city.array, city.size, category);
+            printArray(city.array, city.size);
         } else if (algo == "Insert") {
-            sortInsertArray(city.array, city.size, category);
+            sortInsertArray(city.array, city.size, category);   
+            printArray(city.array, city.size);
         } else if (algo == "Merge") {
-
+            merge(city.array,0,city.size-1,category);
+            printArray(city.array, city.size);
         }
     } else if (structure == "LinkedList") {   
         if (algo == "Bubble") {
             sortBubbleList(city.list,category);
+            printList(city.list.getHead());
         } else if (algo == "Insert") {
             sortInsertList(city.list,category);
+            printList(city.list.getHead());
         } else if (algo == "Merge") {
 
         }
@@ -69,7 +73,43 @@ void sortInsertList(linkedList& list, string category) {
         current = next;
     }
     list.setHead(sorted);
-    printList(sorted);
+}
+
+void merge(Residents* array, int indexL, int indexR, string category) {
+    if (indexL < indexR) {
+        int indexM = indexL + (indexR - indexL) / 2;
+        merge(array, indexL, indexM, category);
+        merge(array, indexM+1, indexR, category);  
+        mergeSort(array, indexL, indexM, indexR, category); 
+    }
+}
+
+void mergeSort(Residents* array, int indexL, int indexM, int indexR, string category) {
+    auto compare = comparator<Residents>(category);
+    int leftSize = indexM - indexL + 1;
+    int rightSize = indexR - indexM;
+
+    Residents leftArray[leftSize],rightArray[rightSize];
+    for (int i=0; i < leftSize; i++) {
+        leftArray[i] = array[indexL + i];
+    }
+    for (int j=0; j < rightSize; j++) {
+        rightArray[j] = array[indexM + 1 + j];
+    }
+    int i = 0, j = 0, k = indexL;
+    while(i < leftSize && j < rightSize) {
+        if (!compare(leftArray[i], rightArray[j])) {
+            array[k++] = leftArray[i++];
+        } else {
+            array[k++] = rightArray[j++];
+        }
+    }
+    while(i < leftSize) {
+        array[k++] = leftArray[i++];
+    }
+    while(j < rightSize) {
+        array[k++] = rightArray[j++];
+    }
 }
 
 void sortInsertArray(Residents* array, int size, string category) {
@@ -85,7 +125,6 @@ void sortInsertArray(Residents* array, int size, string category) {
         }
         array[j+1] = key;
     }
-    printArray(array,size);
 }
 
 void sortBubbleList(linkedList& list, string category) {
@@ -127,7 +166,6 @@ void sortBubbleList(linkedList& list, string category) {
             }
         i++;
     }
-    printList(head);
 }
 
 void sortBubbleArray(Residents *array, int size, string category) {
@@ -142,7 +180,6 @@ void sortBubbleArray(Residents *array, int size, string category) {
             }
         }
     }
-    printArray(array,size);
 }
 
 
