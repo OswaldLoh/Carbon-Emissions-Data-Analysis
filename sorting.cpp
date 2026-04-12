@@ -47,32 +47,8 @@ void sorting(string structure, string algo, Array city, string category) {
         }
     }
 }
-
-void sortInsertList(linkedList& list, string category) {
-    listResidents*head = list.getHead();
-    int size = list.getSize();
-    auto compare = comparator<listResidents>(category);
-    if (!head || !head->nextAddress) return;
-    listResidents* sorted = nullptr;
-    listResidents* current = head;
-
-    while (current != nullptr) {
-        listResidents* next = current->nextAddress;
-
-        if (sorted == nullptr || compare(*sorted, *current)) {
-            current->nextAddress = sorted;
-            sorted = current;
-        } else {
-            listResidents* cNode = sorted;
-            while (cNode->nextAddress != nullptr && !compare(*cNode->nextAddress,*current)) {
-                cNode = cNode->nextAddress;
-            }
-            current->nextAddress = cNode->nextAddress;
-            cNode->nextAddress = current;
-        }  
-        current = next;
-    }
-    list.setHead(sorted);
+void mergeList(linkedList& list, string category) {
+    
 }
 
 void merge(Residents* array, int indexL, int indexR, string category) {
@@ -110,6 +86,33 @@ void mergeSort(Residents* array, int indexL, int indexM, int indexR, string cate
     while(j < rightSize) {
         array[k++] = rightArray[j++];
     }
+}
+
+void sortInsertList(linkedList& list, string category) {
+    listResidents*head = list.getHead();
+    int size = list.getSize();
+    auto compare = comparator<listResidents>(category);
+    if (!head || !head->nextAddress) return;
+    listResidents* sorted = nullptr;
+    listResidents* current = head;
+
+    while (current != nullptr) {
+        listResidents* next = current->nextAddress;
+
+        if (sorted == nullptr || compare(*sorted, *current)) {
+            current->nextAddress = sorted;
+            sorted = current;
+        } else {
+            listResidents* cNode = sorted;
+            while (cNode->nextAddress != nullptr && !compare(*cNode->nextAddress,*current)) {
+                cNode = cNode->nextAddress;
+            }
+            current->nextAddress = cNode->nextAddress;
+            cNode->nextAddress = current;
+        }  
+        current = next;
+    }
+    list.setHead(sorted);
 }
 
 void sortInsertArray(Residents* array, int size, string category) {
