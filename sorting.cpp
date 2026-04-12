@@ -3,6 +3,7 @@
 #include <functional>
 #include <iomanip>
 #include "residents.h"
+#include <chrono>
 
 using namespace std;
 
@@ -23,32 +24,46 @@ function<bool(const type&, const type&)> comparator(string category) {
     };
 }
 
+int measureTime(std::function<void()> func) {
+    auto start = std::chrono::steady_clock::now();
+    func();
+    auto end = std::chrono::steady_clock::now();
+    return (int)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+}
+
+
+
 void sorting(string structure, string algo, Array city, string category) {
+    int execTime;
     if (structure == "Array") {
         if (algo == "Bubble") {
-            sortBubbleArray(city.array, city.size, category);
+            execTime = measureTime([&]() { sortBubbleArray(city.array, city.size, category); });
             printArray(city.array, city.size);
         } else if (algo == "Insert") {
-            sortInsertArray(city.array, city.size, category);   
+            execTime = measureTime([&]() { sortInsertArray(city.array, city.size, category); });
             printArray(city.array, city.size);
         } else if (algo == "Merge") {
-            mergeArray(city.array,0,city.size-1,category);
+            execTime = measureTime([&]() { mergeArray(city.array, 0, city.size - 1, category); });
             printArray(city.array, city.size);
         }
-    } else if (structure == "LinkedList") {   
+    } else if (structure == "LinkedList") {
         if (algo == "Bubble") {
-            sortBubbleList(city.list,category);
+            execTime = measureTime([&]() { sortBubbleList(city.list, category); });
             printList(city.list.getHead());
         } else if (algo == "Insert") {
-            sortInsertList(city.list,category);
+            execTime = measureTime([&]() { sortInsertList(city.list, category); });
             printList(city.list.getHead());
         } else if (algo == "Merge") {
-            listResidents* sortedHead = mergeListSort(city.list.getHead(),category);
+            listResidents* sortedHead;
+            execTime = measureTime([&]() { sortedHead = mergeListSort(city.list.getHead(), category); });
             city.list.setHead(sortedHead);
             printList(city.list.getHead());
+            
         }
     }
+    cout << "Execution time: " << execTime << " microseconds" << std::endl;
 }
+
 
 listResidents* split(listResidents* head) {
     listResidents* fast = head;
