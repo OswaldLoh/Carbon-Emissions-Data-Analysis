@@ -2,6 +2,7 @@
 #include <limits>
 #include <iomanip>
 #include "residents.h"
+#include <string>
 
 using namespace std;
 

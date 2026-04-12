@@ -32,7 +32,7 @@ void sorting(string structure, string algo, Array city, string category) {
             sortInsertArray(city.array, city.size, category);   
             printArray(city.array, city.size);
         } else if (algo == "Merge") {
-            merge(city.array,0,city.size-1,category);
+            mergeArray(city.array,0,city.size-1,category);
             printArray(city.array, city.size);
         }
     } else if (structure == "LinkedList") {   
@@ -43,19 +43,59 @@ void sorting(string structure, string algo, Array city, string category) {
             sortInsertList(city.list,category);
             printList(city.list.getHead());
         } else if (algo == "Merge") {
-
+            listResidents* sortedHead = mergeListSort(city.list.getHead(),category);
+            city.list.setHead(sortedHead);
+            printList(city.list.getHead());
         }
     }
 }
-void mergeList(linkedList& list, string category) {
-    
+
+listResidents* split(listResidents* head) {
+    listResidents* fast = head;
+    listResidents* slow = head;
+    while (fast != nullptr && fast->nextAddress != nullptr) {
+        fast = fast->nextAddress->nextAddress;
+        if (fast != nullptr) {
+            slow = slow->nextAddress;
+        }
+    }
+    listResidents* tempHead = slow->nextAddress;
+    slow->nextAddress = nullptr;
+    return tempHead;
 }
 
-void merge(Residents* array, int indexL, int indexR, string category) {
+listResidents* merge(listResidents* first, listResidents* second, const string& category) {
+    auto compare = comparator<listResidents>(category);
+
+    if (first == nullptr) return second;
+    if (second == nullptr) return first;
+    if (compare(*second, *first)) {
+        first->nextAddress = merge(first->nextAddress, second, category);
+        return first;
+    } else {
+        second->nextAddress = merge(first, second->nextAddress,category);
+        return second;
+    }
+
+}
+
+listResidents* mergeListSort(listResidents* head, const string& category) {
+    if (head == nullptr || head->nextAddress == nullptr) {
+        return head;
+    }
+    listResidents* second = split(head);
+    head = mergeListSort(head, category);
+    second = mergeListSort(second, category);
+    return merge(head, second, category);
+}
+
+
+
+void mergeArray(Residents* array, int indexL, int indexR, string category) {
     if (indexL < indexR) {
         int indexM = indexL + (indexR - indexL) / 2;
-        merge(array, indexL, indexM, category);
-        merge(array, indexM+1, indexR, category);  
+        mergeArray(array, indexL, indexM, category);
+        mergeArray(array, indexM+1, indexR, category);  
         mergeSort(array, indexL, indexM, indexR, category); 
     }
 }
@@ -89,7 +129,7 @@ void mergeSort(Residents* array, int indexL, int indexM, int indexR, string cate
 }
 
 void sortInsertList(linkedList& list, string category) {
-    listResidents*head = list.getHead();
+    listResidents* head = list.getHead();
     int size = list.getSize();
     auto compare = comparator<listResidents>(category);
     if (!head || !head->nextAddress) return;
