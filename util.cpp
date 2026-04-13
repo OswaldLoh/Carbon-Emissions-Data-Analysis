@@ -9,7 +9,7 @@ using namespace std;
 Array citySelection(Array* arrays, int size) {    
     int selection;
     bool valid = false;
-    cout << "City Selection:" << endl;
+    cout << "\nCity Selection:" << endl;
     cout << "1. City A" << endl;
     cout << "2. City B" << endl;
     cout << "3. City C" << endl;
@@ -39,7 +39,7 @@ string sortBy() {
     int selection;
     string category;
     bool valid = false;
-    cout << "Sort by:" << endl;
+    cout << "\nSort by:" << endl;
     cout << "1. Age" << endl;
     cout << "2. Daily Distance" << endl;
     cout << "3. Carbon Emission" << endl;
@@ -64,7 +64,6 @@ string sortBy() {
             category = "Carbon";
             break;
     }
-    cout << "hello!";
     return category;
 }
 
@@ -72,7 +71,7 @@ string structureSelect() {
     int selection;
     string structure;
     bool valid = false;
-    cout << "Please choose data structure" << endl;
+    cout << "\nPlease choose data structure" << endl;
     cout << "1. Array" << endl;
     cout << "2. Linked List" << endl;
     while (!valid) {
@@ -101,7 +100,7 @@ string algoSelect() {
     int selection;
     string sort;
     bool valid = false;
-    cout << "Please choose sorting method" << endl;
+    cout << "\nPlease choose sorting method" << endl;
     cout << "1. Bubble Sort" << endl;
     cout << "2. Insert Sort" << endl;
     cout << "3. Merge Sort" << endl;
@@ -132,7 +131,7 @@ string algoSelect() {
 }
 
 void printArray(Residents* array, int size) {
-    cout << "-------------------------------------------" << endl;
+    cout << "\n-------------------------------------------" << endl;
     cout << left 
     << setw(7) << "No." 
     << setw(10) << "ID" 
@@ -155,7 +154,7 @@ void printArray(Residents* array, int size) {
 void printList(listResidents* head) {
     listResidents* currNode = head;
     int count = 1;
-    cout << "-------------------------------------------" << endl;
+    cout << "\n-------------------------------------------" << endl;
     cout << left 
          << setw(7) << "No." 
          << setw(10) << "ID" 
