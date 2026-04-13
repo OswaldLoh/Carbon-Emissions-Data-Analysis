@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 template <typename type>
 function<bool(const type&, const type&)> comparator(string category) {
     if (category == "Age") {
@@ -23,15 +22,6 @@ function<bool(const type&, const type&)> comparator(string category) {
         return a.carbon > b.carbon;
     };
 }
-
-int measureTime(std::function<void()> func) {
-    auto start = std::chrono::steady_clock::now();
-    func();
-    auto end = std::chrono::steady_clock::now();
-    return (int)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-}
-
-
 
 void sorting(string structure, string algo, Array city, string category) {
     int execTime;
@@ -61,6 +51,7 @@ void sorting(string structure, string algo, Array city, string category) {
             
         }
     }
+    cout << "\nExecuted: " << algo << " Sort | " << structure << " | " << "City " << city.name << " | " << "Sort by " << category << endl;
     cout << "Execution time: " << execTime << " microseconds" << std::endl;
 }
 
@@ -239,5 +230,6 @@ void sortBubbleArray(Residents *array, int size, string category) {
         }
     }
 }
+
 
 

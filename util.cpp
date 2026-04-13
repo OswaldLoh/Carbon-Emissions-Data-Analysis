@@ -3,10 +3,12 @@
 #include <iomanip>
 #include "residents.h"
 #include <string>
+#include <functional>
+#include <chrono>
 
 using namespace std;
 
-Array citySelection(Array* arrays, int size) {    
+Array citySelection(Array* cities, int size) {    
     int selection;
     bool valid = false;
     cout << "\nCity Selection:" << endl;
@@ -26,13 +28,13 @@ Array citySelection(Array* arrays, int size) {
     }
     switch (selection) {
         case 1:
-            return arrays[0];
+            return cities[0];
         case 2:
-            return arrays[1];
+            return cities[1];
         case 3:
-            return arrays[2];
+            return cities[2];
     }
-    return arrays[0];
+    return cities[0];
 }
 
 string sortBy() {
@@ -174,3 +176,11 @@ void printList(listResidents* head) {
         count++;
     }
 }
+
+int measureTime(std::function<void()> func) {
+    auto start = std::chrono::steady_clock::now();
+    func();
+    auto end = std::chrono::steady_clock::now();
+    return (int)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+}
+

@@ -2,6 +2,9 @@
 #define HEADER
 
 #include <iostream>
+#include <chrono>
+#include <functional>
+
 using namespace std;
 
 // Array Size
@@ -75,9 +78,11 @@ void sortInsertArray(Residents* array, int size, string category);
 void sortInsertList(linkedList& list, string category);
 void mergeArray(Residents* array, int indexL, int indexR, string category);
 void mergeSort(Residents* array, int indexL, int indexM, int indexR, string category);
+int measureTime(std::function<void()> func);
 listResidents* merge(listResidents* first, listResidents* second, const string& category);
 listResidents* split(listResidents* head);
 listResidents* mergeListSort(listResidents* head, const string& category);
+
 #endif
 
 
