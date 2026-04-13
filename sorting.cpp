@@ -51,6 +51,7 @@ void sorting(string structure, string algo, Array city, string category) {
             
         }
     }
+    fileOutput(city,category,structure);
     cout << "\nExecuted: " << algo << " Sort | " << structure << " | " << "City " << city.name << " | " << "Sort by " << category << endl;
     cout << "Execution time: " << execTime << " microseconds" << std::endl;
 }

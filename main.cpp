@@ -8,8 +8,6 @@
 
 using namespace std;
 
-
-
 int main() {
     int decision;
     bool valid = false;

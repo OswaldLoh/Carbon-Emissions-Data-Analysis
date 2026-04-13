@@ -82,6 +82,8 @@ int measureTime(std::function<void()> func);
 listResidents* merge(listResidents* first, listResidents* second, const string& category);
 listResidents* split(listResidents* head);
 listResidents* mergeListSort(listResidents* head, const string& category);
+void fileOutput(Array city, string category, string structure);
+string getTimestamp();
 
 #endif
 
