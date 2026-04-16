@@ -85,6 +85,13 @@ listResidents* mergeListSort(listResidents* head, const string& category);
 void fileOutput(Array city, string category, string structure);
 string getTimestamp();
 
+// Searching functions
+void searchMenu(Array& city);
+void linearSearchArray(Residents* arr, int size, int criteria, int minAge, int maxAge, string targetMode, double threshold, string cityName);
+void linearSearchList(linkedList& list, int criteria, int minAge, int maxAge, string targetMode, double threshold, string cityName);
+void binarySearchArrayAge(Residents* arr, int size, int minAge, int maxAge, string cityName);
+void binarySearchArrayDist(Residents* arr, int size, double threshold, string cityName);
+
 #endif
 
 

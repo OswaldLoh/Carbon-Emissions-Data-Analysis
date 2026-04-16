@@ -77,7 +77,8 @@ int main() {
                 break;
                 }
             case 4:{
-                cout << "In progress" << endl;
+                Array city = citySelection(cities,4);
+                searchMenu(city);
                 break;
             }
             
