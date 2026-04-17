@@ -65,7 +65,7 @@ int main() {
                 break;
             }
             case 2: {            // Carbon Analysis
-                cout << "In Progress" << endl;
+                carbonAnalysis(cities, 3);
                 break;
                 }
             case 3: {           // Sorting Algorithms

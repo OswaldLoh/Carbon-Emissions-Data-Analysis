@@ -92,6 +92,14 @@ void linearSearchList(linkedList& list, int criteria, int minAge, int maxAge, st
 void binarySearchArrayAge(Residents* arr, int size, int minAge, int maxAge, string cityName);
 void binarySearchArrayDist(Residents* arr, int size, double threshold, string cityName);
 
+// Carbon Analysis functions
+void carbonAnalysis(Array* cities, int numCities);
+void carbonByModeArray(Residents* array, int size, const string& cityName);
+void carbonByModeList(linkedList& list, const string& cityName);
+void carbonByAgeGroupArray(Residents* array, int size, const string& cityName);
+void carbonByAgeGroupList(linkedList& list, const string& cityName);
+void crossCityComparison(Array* cities, int numCities, const string& structure);
+
 #endif
 
 
