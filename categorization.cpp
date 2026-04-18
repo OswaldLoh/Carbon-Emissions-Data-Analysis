@@ -44,9 +44,9 @@ string findMaxMode(AgeGroupStats g) {
     return mode;
 }
 
-// ==========================
-// ARRAY VERSION
-// ==========================
+
+// ARRAY
+
 void categorizeArray(Residents array[], int size) {
 
     AgeGroupStats group[5];
@@ -105,16 +105,18 @@ void categorizeArray(Residents array[], int size) {
         }
 
         cout << left << setw(50) << labels[i]
+             << fixed << setprecision(2)
              << setw(20) << group[i].totalEmission
              << setw(20) << avg
+             << defaultfloat
              << setw(20) << findMaxMode(group[i]) << endl;
     }
 }
 
 
-// ==========================
-// LINKED LIST VERSION
-// ==========================
+
+// LINKED LIST
+
 void categorizeList(linkedList& list) {
 
     AgeGroupStats group[5];
@@ -169,8 +171,10 @@ void categorizeList(linkedList& list) {
         }
 
         cout << left << setw(50) << labels[i]
+             << fixed << setprecision(2)
              << setw(20) << group[i].totalEmission
              << setw(20) << avg
+             << defaultfloat
              << setw(20) << findMaxMode(group[i]) << endl;
     }
 }
