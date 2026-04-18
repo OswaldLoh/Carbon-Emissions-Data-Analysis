@@ -45,10 +45,12 @@ class linkedList {
         listResidents* headAddress;
     public:
         linkedList();               // Constructor
+        void clear();               // Frees all nodes and resets the list
         int getSize();
         listResidents* getHead();
         void setHead(listResidents* newAddress);
         void insertNode(string ID, int age, string mode, double distance, double carbon, double avg);
+
 };
 
 // Container for all cities and their respective linked list and arrays
