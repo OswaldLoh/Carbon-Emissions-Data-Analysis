@@ -1,18 +1,8 @@
 /*
     Searching Experiments (Question 7)
-
-    Algorithms:
-    - Linear Search: O(N) — scans every element, works on unsorted data
-    - Binary Search: O(log N) — halves search space each step, needs sorted data
-
-    Why Binary Search cannot work on Linked Lists:
-      Binary Search requires O(1) random access to jump to the middle element.
-      In a linked list, reaching the midpoint requires O(N/2) pointer traversal.
-      This must be repeated at every level, giving O(N log N) total — which is
-      worse than just doing Linear Search at O(N). So it's only used on arrays.
-
-    Reuses: merge() from sorting.cpp, structureSelect() from util.cpp,
-            same age group definitions as categorization.cpp
+    - Linear Search: O(N) time, O(1) space — works on unsorted data
+    - Binary Search: O(log N) time, O(N) space — arrays only, requires pre-sort
+    Reuses: mergeArray() from sorting.cpp, structureSelect() from util.cpp
 */
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 #include <iostream>
@@ -64,8 +54,7 @@ bool isMatch(int criteria, int age, string mode, double dist,
     if (criteria == 1) return (age >= minAge && age <= maxAge);
     if (criteria == 2) return (mode == targetMode);
     if (criteria == 3) return (dist > threshold);
-    // criteria 4: combined condition — age group AND distance threshold
-    // this shows advanced application of searching with multiple filters
+    // criteria 4: combined age group + distance filter
     if (criteria == 4) return (age >= minAge && age <= maxAge && dist > threshold);
     return false;
 }
@@ -112,12 +101,7 @@ void printFooter(int matches, int comps, long long us) {
 }
 
 
-// ==============================================================
-//  LINEAR SEARCH — ARRAY
-//  Time Complexity: O(N) — must check every element once
-//  Space Complexity: O(1) — no extra memory needed
-//  Works on unsorted data, which is the main advantage over binary search
-// ==============================================================
+// Linear Search — Array | O(N) time, O(1) space | works on unsorted data
 void linearSearchArray(Residents* arr, int size, int criteria,
                        int minAge, int maxAge, string targetMode,
                        double threshold, string cityName) {
@@ -128,9 +112,8 @@ void linearSearchArray(Residents* arr, int size, int criteria,
     int matches = 0, comps = 0;
     auto start = chrono::high_resolution_clock::now();
 
-    // iterate through every array element — O(N)
     for (int i = 0; i < size; i++) {
-        comps++;  // count each comparison for performance analysis
+        comps++;
         if (isMatch(criteria, arr[i].age, arr[i].mode, arr[i].distance,
                     minAge, maxAge, targetMode, threshold)) {
             matches++;
@@ -148,16 +131,7 @@ void linearSearchArray(Residents* arr, int size, int criteria,
 }
 
 
-// ==============================================================
-//  LINEAR SEARCH — LINKED LIST
-//  Time Complexity: O(N) — same as array, traverse every node
-//  Space Complexity: O(1)
-//  Key difference: array uses index arr[i] with O(1) random access,
-//  linked list follows nextAddress pointers sequentially.
-//  In practice, linked list is often slightly slower because nodes
-//  are scattered in heap memory (poor cache locality), while array
-//  elements sit next to each other (good cache locality).
-// ==============================================================
+// Linear Search — Linked List | O(N) time, O(1) space | traverses nextAddress pointers
 void linearSearchList(linkedList& list, int criteria,
                       int minAge, int maxAge, string targetMode,
                       double threshold, string cityName) {
@@ -168,7 +142,7 @@ void linearSearchList(linkedList& list, int criteria,
     int matches = 0, comps = 0;
     auto start = chrono::high_resolution_clock::now();
 
-    // follow the chain of nextAddress pointers from head to end
+    // traverse all nodes from head to end
     listResidents* curr = list.getHead();
     while (curr != nullptr) {
         comps++;
@@ -190,29 +164,21 @@ void linearSearchList(linkedList& list, int criteria,
 }
 
 
-// ==============================================================
-//  BINARY SEARCH — ARRAY (Age Group)
-//  Time Complexity: O(log N) for the search + O(N log N) for pre-sort
-//  Space Complexity: O(N) due to merge sort's temporary arrays
-//
-//  How it works:
-//  1. Sort the array by age using merge sort (reuses sorting.cpp)
-//  2. Binary search for the FIRST index where age >= minAge (lower bound)
-//  3. Binary search for the LAST index where age <= maxAge (upper bound)
-//  4. Everything between lower and upper bound is a match
-//
-//  For N=200, binary search needs ~8 comparisons (log2(200))
-//  vs 200 comparisons for linear search — massive improvement
-// ==============================================================
+// Binary Search — Array (Age) | O(log N) search + O(N log N) pre-sort | O(N) space
+// Sorts a temp copy by age, then finds lower and upper bounds via binary search
 void binarySearchArrayAge(Residents* arr, int size,
                           int minAge, int maxAge, string cityName) {
 
     string label = "Age " + to_string(minAge) + "-" + to_string(maxAge);
 
-    // step 1: sort by age first — reusing mergeArray() from sorting.cpp
+    // copy original array so pre-sort does not disturb data for subsequent searches
+    Residents* temp = new Residents[size];
+    for (int i = 0; i < size; i++) temp[i] = arr[i];
+
+    // sort the copy by age (original array is preserved)
     cout << "\n  [Pre-sorting by Age using Merge Sort...]" << endl;
     auto sortStart = chrono::high_resolution_clock::now();
-    mergeArray(arr, 0, size - 1, "Age");
+    mergeArray(temp, 0, size - 1, "Age");
     auto sortEnd = chrono::high_resolution_clock::now();
     long long sortTime = chrono::duration_cast<chrono::microseconds>(sortEnd - sortStart).count();
     cout << "  Sort completed in " << sortTime << " us" << endl;
@@ -222,30 +188,30 @@ void binarySearchArrayAge(Residents* arr, int size,
     int matches = 0, comps = 0;
     auto start = chrono::high_resolution_clock::now();
 
-    // step 2: find lower bound — first index where age >= minAge
+    // find lower bound: first index where age >= minAge
     int lo = 0, hi = size - 1, lower = size;
     while (lo <= hi) {
         comps++;
         int mid = lo + (hi - lo) / 2;  // avoids integer overflow vs (lo+hi)/2
-        if (arr[mid].age >= minAge) { lower = mid; hi = mid - 1; }
+        if (temp[mid].age >= minAge) { lower = mid; hi = mid - 1; }
         else lo = mid + 1;
     }
 
-    // step 3: find upper bound — last index where age <= maxAge
+    // find upper bound: last index where age <= maxAge
     lo = 0; hi = size - 1;
     int upper = -1;
     while (lo <= hi) {
         comps++;
         int mid = lo + (hi - lo) / 2;
-        if (arr[mid].age <= maxAge) { upper = mid; lo = mid + 1; }
+        if (temp[mid].age <= maxAge) { upper = mid; lo = mid + 1; }
         else hi = mid - 1;
     }
 
-    // step 4: print all residents in the found range
+    // print all residents within the located range
     for (int i = lower; i <= upper && lower <= upper; i++) {
         matches++;
-        printRow(matches, arr[i].ID, arr[i].age, arr[i].mode,
-                 arr[i].distance, arr[i].carbon, arr[i].avg);
+        printRow(matches, temp[i].ID, temp[i].age, temp[i].mode,
+                 temp[i].distance, temp[i].carbon, temp[i].avg);
     }
 
     auto end = chrono::high_resolution_clock::now();
@@ -255,25 +221,27 @@ void binarySearchArrayAge(Residents* arr, int size,
          << comps << " comparisons (log2(" << size << ")="
          << (int)log2(size)+1 << ")" << endl;
 
-    if (logCount < 10)
+    delete[] temp;  // free the temporary copy
+
+    if (logCount < 20)
         searchLog[logCount++] = {"Array(Sorted)", "Binary", label, matches, comps, dur};
 }
 
 
-// ==============================================================
-//  BINARY SEARCH — ARRAY (Distance Threshold)
-//  Same concept as age binary search, but finds a single boundary:
-//  the first index where distance > threshold.
-//  Everything from that index to the end of the sorted array matches.
-// ==============================================================
+// Binary Search — Array (Distance) | O(log N) search + O(N log N) pre-sort | O(N) space
+// Sorts a temp copy by distance, then finds the first index exceeding the threshold
 void binarySearchArrayDist(Residents* arr, int size,
                            double threshold, string cityName) {
 
     string label = "Distance > " + to_string((int)threshold) + " km";
 
+    // copy original array so pre-sort does not disturb data for subsequent searches
+    Residents* temp = new Residents[size];
+    for (int i = 0; i < size; i++) temp[i] = arr[i];
+
     cout << "\n  [Pre-sorting by Distance using Merge Sort...]" << endl;
     auto sortStart = chrono::high_resolution_clock::now();
-    mergeArray(arr, 0, size - 1, "Distance");
+    mergeArray(temp, 0, size - 1, "Distance");
     auto sortEnd = chrono::high_resolution_clock::now();
     long long sortTime = chrono::duration_cast<chrono::microseconds>(sortEnd - sortStart).count();
     cout << "  Sort completed in " << sortTime << " us" << endl;
@@ -283,20 +251,20 @@ void binarySearchArrayDist(Residents* arr, int size,
     int matches = 0, comps = 0;
     auto start = chrono::high_resolution_clock::now();
 
-    // find the first index where distance > threshold
+    // find first index where distance exceeds the threshold (lower bound)
     int lo = 0, hi = size - 1, boundary = size;
     while (lo <= hi) {
         comps++;
         int mid = lo + (hi - lo) / 2;
-        if (arr[mid].distance > threshold) { boundary = mid; hi = mid - 1; }
+        if (temp[mid].distance > threshold) { boundary = mid; hi = mid - 1; }
         else lo = mid + 1;
     }
 
-    // everything from boundary onwards exceeds the threshold
+    // all elements from boundary to end exceed the threshold
     for (int i = boundary; i < size; i++) {
         matches++;
-        printRow(matches, arr[i].ID, arr[i].age, arr[i].mode,
-                 arr[i].distance, arr[i].carbon, arr[i].avg);
+        printRow(matches, temp[i].ID, temp[i].age, temp[i].mode,
+                 temp[i].distance, temp[i].carbon, temp[i].avg);
     }
 
     auto end = chrono::high_resolution_clock::now();
@@ -311,15 +279,14 @@ void binarySearchArrayDist(Residents* arr, int size,
     cout << "  Binary Search is ~" << (comps > 0 ? size/comps : 0)
          << "x fewer comparisons than Linear" << endl;
 
+    delete[] temp;  // free the temporary copy
+
     if (logCount < 20)
         searchLog[logCount++] = {"Array(Sorted)", "Binary", label, matches, comps, dur};
 }
 
 
-// ==============================================================
-//  Performance comparison table — printed after all experiments
-//  Shows side-by-side how each algorithm/structure performed
-// ==============================================================
+// Prints side-by-side performance summary of all logged search experiments
 void printComparisonSummary(string cityName, int size) {
     cout << "\n" << string(90, '=') << endl;
     cout << "  PERFORMANCE COMPARISON | City " << cityName
@@ -353,31 +320,18 @@ void printComparisonSummary(string cityName, int size) {
     cout << "    -> Extra overhead: " << size * sizeof(listResidents*)
          << " bytes just for pointers" << endl;
 
-    // --- Key Insights ---
     cout << string(90, '-') << endl;
     cout << "  KEY INSIGHTS:" << endl;
-    cout << "  1. Binary Search (O(log N)) is much faster than Linear (O(N))" << endl;
-    cout << "     but ONLY works if data is already sorted." << endl;
-    cout << "  2. Sorting costs O(N log N), so for a ONE-TIME search on" << endl;
-    cout << "     small datasets, Linear Search may actually be faster" << endl;
-    cout << "     overall (no sort overhead needed)." << endl;
-    cout << "  3. Binary Search CANNOT work on Linked Lists because" << endl;
-    cout << "     reaching the midpoint needs O(N/2) pointer traversal," << endl;
-    cout << "     making total cost O(N log N) — worse than Linear O(N)." << endl;
-    cout << "  4. Array Linear Search is often faster than Linked List" << endl;
-    cout << "     Linear Search (same O(N)) because arrays have better" << endl;
-    cout << "     cache locality — CPU prefetches adjacent elements." << endl;
-    cout << "  5. For repeated searches on the same data, sorting once" << endl;
-    cout << "     then using Binary Search is the best strategy." << endl;
+    cout << "  1. Binary Search O(log N) outperforms Linear O(N), but requires sorted data." << endl;
+    cout << "  2. Sort overhead O(N log N) means Linear Search can be faster for a single query." << endl;
+    cout << "  3. Binary Search on Linked Lists costs O(N log N) — no gain over Linear O(N)." << endl;
+    cout << "  4. Array Linear Search is faster than Linked List due to cache locality." << endl;
+    cout << "  5. Optimal strategy: sort once, then reuse Binary Search for repeated queries." << endl;
     cout << string(90, '=') << endl;
 }
 
 
-// ==============================================================
-//  SEARCH MENU — called from main.cpp case 4
-//  Lets user pick criteria, algorithm, and data structure,
-//  then runs the search and logs results for comparison
-// ==============================================================
+// Search menu — user selects criteria, algorithm, and structure; logs each run for comparison
 void searchMenu(Array& city) {
     logCount = 0;  // reset experiment log
     bool again = true;
@@ -391,8 +345,7 @@ void searchMenu(Array& city) {
         cout << "4. Combined: Age Group + Distance (advanced)" << endl;
         int criteria = getInput(1, 4);
 
-        // pick search algorithm
-        // binary search only works for single numeric field, not combined or string
+        // binary search requires a sortable numeric field (not string/combined criteria)
         cout << "\nAlgorithm:" << endl;
         cout << "1. Linear Search (unsorted data)" << endl;
         bool canBinary = (criteria == 1 || criteria == 3);
@@ -400,7 +353,7 @@ void searchMenu(Array& city) {
             cout << "2. Binary Search (sorts first, Array only)" << endl;
         int algo = getInput(1, canBinary ? 2 : 1);
 
-        // pick data structure — reuses structureSelect() from util.cpp
+        // select data structure
         string structure = structureSelect();
 
         // gather the specific search parameters based on criteria
