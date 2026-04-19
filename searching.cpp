@@ -93,6 +93,7 @@ void printRow(int num, string id, int age, string mode,
          << setw(10) << setprecision(2) << (dist * carbon * avg) << endl;
 }
 
+// Prints match count, total comparisons, and execution time below each result table
 void printFooter(int matches, int comps, long long us) {
     cout << string(80, '-') << endl;
     cout << "  Matches: " << matches << "  |  Comparisons: " << comps
@@ -337,7 +338,6 @@ void searchMenu(Array& city) {
     bool again = true;
 
     while (again) {
-        // pick what to search by
         cout << "\nSearch by:" << endl;
         cout << "1. Age Group" << endl;
         cout << "2. Mode of Transport" << endl;
@@ -385,9 +385,7 @@ void searchMenu(Array& city) {
             threshold = val;
         }
 
-        // execute the selected search
         if (algo == 1) {
-            // Linear search works on both array and linked list
             if (structure == "Array")
                 linearSearchArray(city.array, city.size, criteria,
                                   minAge, maxAge, targetMode, threshold, city.name);
