@@ -71,15 +71,15 @@ string criteriaLabel(int criteria, int minAge, int maxAge,
 
 // --- Table printing helpers ---
 void printHeader(string city, string algo, string structure, string criteria) {
-    cout << "\n" << string(80, '=') << endl;
+    cout << "\n" << string(70, '=') << endl;
     cout << "  City " << city << " | " << algo << " | " << structure << endl;
     cout << "  Criteria: " << criteria << endl;
-    cout << string(80, '=') << endl;
+    cout << string(70, '=') << endl;
     cout << left << setw(6) << "No." << setw(8) << "ID" << setw(6) << "Age"
          << setw(12) << "Transport" << setw(10) << "Dist(km)"
          << setw(10) << "CO2/km" << setw(8) << "Days"
          << setw(10) << "Emission" << endl;
-    cout << string(80, '-') << endl;
+    cout << string(70, '-') << endl;
 }
 
 // emission = distance * carbonFactor * avgDaysPerMonth (same formula as categorization.cpp)
@@ -95,10 +95,10 @@ void printRow(int num, string id, int age, string mode,
 
 // Prints match count, total comparisons, and execution time below each result table
 void printFooter(int matches, int comps, long long us) {
-    cout << string(80, '-') << endl;
+    cout << string(70, '-') << endl;
     cout << "  Matches: " << matches << "  |  Comparisons: " << comps
          << "  |  Time: " << us << " us" << endl;
-    cout << string(80, '=') << endl;
+    cout << string(70, '=') << endl;
 }
 
 
@@ -289,46 +289,54 @@ void binarySearchArrayDist(Residents* arr, int size,
 
 // Prints side-by-side performance summary of all logged search experiments
 void printComparisonSummary(string cityName, int size) {
-    cout << "\n" << string(90, '=') << endl;
+    cout << "\n" << string(80, '=') << endl;
     cout << "  PERFORMANCE COMPARISON | City " << cityName
          << " | " << size << " records" << endl;
-    cout << string(90, '=') << endl;
-    cout << left << setw(16) << "Structure" << setw(12) << "Algorithm"
-         << setw(28) << "Criteria" << setw(10) << "Matches"
-         << setw(14) << "Comparisons" << setw(10) << "Time(us)" << endl;
-    cout << string(90, '-') << endl;
+    cout << string(80, '=') << endl;
+    cout << left << setw(14) << "Structure" << setw(10) << "Algorithm"
+         << setw(26) << "Criteria" << setw(10) << "Matches"
+         << setw(12) << "Comparisons" << setw(8) << "Time(us)" << endl;
+    cout << string(80, '-') << endl;
     for (int i = 0; i < logCount; i++) {
-        cout << left << setw(16) << searchLog[i].structure
-             << setw(12) << searchLog[i].algorithm
-             << setw(28) << searchLog[i].criteria
+        cout << left << setw(14) << searchLog[i].structure
+             << setw(10) << searchLog[i].algorithm
+             << setw(26) << searchLog[i].criteria
              << setw(10) << searchLog[i].matches
-             << setw(14) << searchLog[i].comparisons
-             << setw(10) << searchLog[i].timeUs << endl;
+             << setw(12) << searchLog[i].comparisons
+             << setw(8)  << searchLog[i].timeUs << endl;
     }
 
     // --- Memory Usage Analysis ---
-    cout << string(90, '-') << endl;
-    cout << "  MEMORY USAGE ANALYSIS:" << endl;
-    cout << "  Array: " << size << " x " << sizeof(Residents)
-         << " bytes = " << size * sizeof(Residents) << " bytes total" << endl;
-    cout << "    -> Stored contiguously in memory (good cache locality)" << endl;
-    cout << "    -> No extra overhead per element" << endl;
-    cout << "  Linked List: " << size << " x " << sizeof(listResidents)
-         << " bytes = " << size * sizeof(listResidents) << " bytes total" << endl;
-    cout << "    -> Each node has an extra pointer (" << sizeof(listResidents*)
-         << " bytes) for nextAddress" << endl;
-    cout << "    -> Nodes scattered in heap memory (poor cache locality)" << endl;
-    cout << "    -> Extra overhead: " << size * sizeof(listResidents*)
-         << " bytes just for pointers" << endl;
+    cout << string(80, '-') << endl;
+    cout << "  MEMORY USAGE (both structures loaded simultaneously):" << endl;
 
-    cout << string(90, '-') << endl;
+    int arrBytes  = size * (int)sizeof(Residents);
+    int listBytes = size * (int)sizeof(listResidents);
+    int ptrBytes  = size * (int)sizeof(listResidents*);
+    int combined  = arrBytes + listBytes;
+
+    cout << "  Array      : " << size << " x " << sizeof(Residents)
+         << " bytes = " << arrBytes << " bytes" << endl;
+    cout << "               Contiguous layout, no pointer per element" << endl;
+    cout << "  Linked List: " << size << " x " << sizeof(listResidents)
+         << " bytes = " << listBytes << " bytes" << endl;
+    cout << "               " << ptrBytes << " bytes used for next pointers alone" << endl;
+    cout << "  Combined total in RAM: " << combined << " bytes" << endl;
+    cout << "  Note: Binary Search adds a temp O(N) copy ("
+         << arrBytes << " bytes) during sort." << endl;
+
+    cout << string(80, '-') << endl;
     cout << "  KEY INSIGHTS:" << endl;
-    cout << "  1. Binary Search O(log N) outperforms Linear O(N), but requires sorted data." << endl;
-    cout << "  2. Sort overhead O(N log N) means Linear Search can be faster for a single query." << endl;
-    cout << "  3. Binary Search on Linked Lists costs O(N log N) — no gain over Linear O(N)." << endl;
-    cout << "  4. Array Linear Search is faster than Linked List due to cache locality." << endl;
-    cout << "  5. Optimal strategy: sort once, then reuse Binary Search for repeated queries." << endl;
-    cout << string(90, '=') << endl;
+    cout << "  1. Binary Search O(log N) is faster than Linear O(N)," << endl;
+    cout << "     but requires the data to be sorted first." << endl;
+    cout << "  2. Sorting costs O(N log N) — for one-off queries," << endl;
+    cout << "     Linear Search (no sort needed) can be faster overall." << endl;
+    cout << "  3. Binary Search on Linked Lists costs O(N log N):" << endl;
+    cout << "     no midpoint access -> no advantage over Linear O(N)." << endl;
+    cout << "  4. Array Linear Search is faster than Linked List Linear" << endl;
+    cout << "     due to better cache locality (contiguous memory)." << endl;
+    cout << "  5. Optimal: sort once, then Binary Search for repeat queries." << endl;
+    cout << string(80, '=') << endl;
 }
 
 
@@ -351,6 +359,10 @@ void searchMenu(Array& city) {
         bool canBinary = (criteria == 1 || criteria == 3);
         if (canBinary)
             cout << "2. Binary Search (sorts first, Array only)" << endl;
+        else
+            cout << "  (Binary Search unavailable: not applicable to "
+                 << (criteria == 2 ? "categorical string fields" : "combined multi-field criteria")
+                 << ")" << endl;
         int algo = getInput(1, canBinary ? 2 : 1);
 
         // select data structure
@@ -406,7 +418,8 @@ void searchMenu(Array& city) {
                 binarySearchArrayDist(city.array, city.size, threshold, city.name);
         }
 
-        cout << "\nRun another experiment? (1=Yes, 0=No): ";
+        cout << "\nRun another search on City " << city.name
+             << "? (1=Yes, 0=No to return to main menu): ";
         int cont; cin >> cont;
         if (cont != 1) again = false;
     }
