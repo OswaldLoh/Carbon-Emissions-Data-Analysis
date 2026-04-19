@@ -58,28 +58,48 @@ void categorizeArray(Residents array[], int size) {
         int index;
 
         // Determine age group index
-        if (age >= 6 && age <= 17) index = 0;
-        else if (age <= 25) index = 1;
-        else if (age <= 45) index = 2;
-        else if (age <= 60) index = 3;
-        else index = 4;
+        if (age >= 6 && age <= 17) {
+            index = 0;
+        }
+        else if (age <= 25) {
+            index = 1;
+        }
+        else if (age <= 45) {
+            index = 2;
+        }
+        else if (age <= 60) {
+            index = 3;
+        }
+        else {
+            index = 4;
+        }
 
         // Calculate emission
-        double emission = array[i].distance 
-                        * array[i].carbon 
-                        * array[i].avg;
+        double emission = array[i].distance * array[i].carbon * array[i].avg;
 
         // Update stats
         group[index].count++;
         group[index].totalEmission += emission;
 
         // Count transport mode
-        if (array[i].mode == "Car") group[index].car++;
-        else if (array[i].mode == "Bus") group[index].bus++;
-        else if (array[i].mode == "Bicycle") group[index].bicycle++;
-        else if (array[i].mode == "Walking") group[index].walking++;
-        else if (array[i].mode == "School Bus") group[index].schoolBus++;
-        else if (array[i].mode == "Carpool") group[index].carpool++;
+        if (array[i].mode == "Car") {
+            group[index].car++;
+        }
+        else if (array[i].mode == "Bus") {
+            group[index].bus++;
+        }
+        else if (array[i].mode == "Bicycle") {
+            group[index].bicycle++;
+        }
+        else if (array[i].mode == "Walking") {
+            group[index].walking++;
+        }
+        else if (array[i].mode == "School Bus") {
+            group[index].schoolBus++;
+        }
+        else if (array[i].mode == "Carpool") {
+            group[index].carpool++;
+        }
     }
 
     // Labels for printing
@@ -127,25 +147,45 @@ void categorizeList(linkedList& list) {
         int age = current->age;
         int index;
 
-        if (age >= 6 && age <= 17) index = 0;
-        else if (age <= 25) index = 1;
-        else if (age <= 45) index = 2;
-        else if (age <= 60) index = 3;
-        else index = 4;
+        if (age >= 6 && age <= 17) {
+            index = 0;
+        }
+        else if (age <= 25) {
+            index = 1;
+        }
+        else if (age <= 45) {
+            index = 2;
+        }
+        else if (age <= 60) {
+            index = 3;
+        }
+        else {
+            index = 4;
+        }
 
-        double emission = current->distance 
-                        * current->carbon 
-                        * current->avg;
+        double emission = current->distance * current->carbon * current->avg;
 
         group[index].count++;
         group[index].totalEmission += emission;
 
-        if (current->mode == "Car") group[index].car++;
-        else if (current->mode == "Bus") group[index].bus++;
-        else if (current->mode == "Bicycle") group[index].bicycle++;
-        else if (current->mode == "Walking") group[index].walking++;
-        else if (current->mode == "School Bus") group[index].schoolBus++;
-        else if (current->mode == "Carpool") group[index].carpool++;
+        if (current->mode == "Car") {
+            group[index].car++;
+        }
+        else if (current->mode == "Bus") {
+            group[index].bus++;
+        }
+        else if (current->mode == "Bicycle") {
+            group[index].bicycle++;
+        }
+        else if (current->mode == "Walking") {
+            group[index].walking++;
+        }
+        else if (current->mode == "School Bus") {
+            group[index].schoolBus++;
+        }
+        else if (current->mode == "Carpool") {
+            group[index].carpool++;
+        }
 
         current = current->nextAddress;
     }
