@@ -43,7 +43,7 @@ string getTimestamp() {
     return timestamp.str();
 }
 
-void fileOutput(Array city, string category, string structure) {
+void fileOutput(Container city, string category, string structure) {
     
     string directory = "Output";
     string timestamp = getTimestamp();

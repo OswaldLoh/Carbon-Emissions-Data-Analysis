@@ -23,37 +23,56 @@ function<bool(const type&, const type&)> comparator(string category) {
     };
 }
 
-void sorting(string structure, string algo, Array city, string category) {
+void sorting(string structure, string algo, Container city, string category) {
     int execTime;
+    size_t dataMemory = 0;
+    size_t auxiliaryMemory = 0;
+
     if (structure == "Array") {
+        dataMemory = city.size * sizeof(Residents);
         if (algo == "Bubble") {
             execTime = measureTime([&]() { sortBubbleArray(city.array, city.size, category); });
+            auxiliaryMemory = sizeof(Residents); // One temp variable for swapping
             printArray(city.array, city.size);
         } else if (algo == "Insert") {
             execTime = measureTime([&]() { sortInsertArray(city.array, city.size, category); });
+            auxiliaryMemory = sizeof(Residents); // One key variable for insertion
             printArray(city.array, city.size);
         } else if (algo == "Merge") {
             execTime = measureTime([&]() { mergeArray(city.array, 0, city.size - 1, category); });
+            auxiliaryMemory = city.size * sizeof(Residents); // Temp arrays at each merge step, peak is n elements
             printArray(city.array, city.size);
         }
     } else if (structure == "LinkedList") {
+        dataMemory = city.list.getSize() * sizeof(listResidents);
         if (algo == "Bubble") {
             execTime = measureTime([&]() { sortBubbleList(city.list, category); });
+            auxiliaryMemory = sizeof(listResidents*) * 3; // Pointer variables for traversal
             printList(city.list.getHead());
         } else if (algo == "Insert") {
             execTime = measureTime([&]() { sortInsertList(city.list, category); });
+            auxiliaryMemory = sizeof(listResidents*) * 3; // Pointer variables for re-linking
             printList(city.list.getHead());
         } else if (algo == "Merge") {
             listResidents* sortedHead;
             execTime = measureTime([&]() { sortedHead = mergeListSort(city.list.getHead(), category); });
             city.list.setHead(sortedHead);
+            // Recursive call stack only: O(log n) frames, each frame stores a few pointers
+            int logN = 0;
+            int temp = city.list.getSize();
+            while (temp > 1) { temp /= 2; logN++; }
+            auxiliaryMemory = logN * (sizeof(listResidents*) * 3);
             printList(city.list.getHead());
-            
         }
     }
+
     fileOutput(city,category,structure);
     cout << "\nExecuted: " << algo << " Sort | " << structure << " | " << "City " << city.name << " | " << "Sort by " << category << endl;
     cout << "Execution time: " << execTime << " microseconds" << std::endl;
+    cout << "\n--- Memory Usage ---" << endl;
+    cout << "Data structure memory: " << dataMemory << " bytes" << endl;
+    cout << "Auxiliary space (algorithm): " << auxiliaryMemory << " bytes" << endl;
+    cout << "Total memory: " << dataMemory + auxiliaryMemory << " bytes" << endl;
 }
 
 

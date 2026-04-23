@@ -54,7 +54,7 @@ class linkedList {
 };
 
 // Container for all cities and their respective linked list and arrays
-struct Array {
+struct Container {
     string name;
     linkedList list;
     Residents* array;
@@ -68,8 +68,8 @@ int loadCSVArray(string path, Residents array[]);
 string algoSelect();
 string structureSelect();
 string sortBy();
-Array citySelection(Array* arrays, int size);
-void sorting(string structure, string algo, Array city, string category);
+Container citySelection(Container* arrays, int size);
+void sorting(string structure, string algo, Container city, string category);
 void sortBubbleArray(Residents *array, int size, string category);
 void categorizeArray(Residents array[], int size);
 void categorizeList(linkedList& list);
@@ -84,23 +84,23 @@ int measureTime(std::function<void()> func);
 listResidents* merge(listResidents* first, listResidents* second, const string& category);
 listResidents* split(listResidents* head);
 listResidents* mergeListSort(listResidents* head, const string& category);
-void fileOutput(Array city, string category, string structure);
+void fileOutput(Container city, string category, string structure);
 string getTimestamp();
 
 // Searching functions
-void searchMenu(Array& city);
+void searchMenu(Container& city);
 void linearSearchArray(Residents* arr, int size, int criteria, int minAge, int maxAge, string targetMode, double threshold, string cityName);
 void linearSearchList(linkedList& list, int criteria, int minAge, int maxAge, string targetMode, double threshold, string cityName);
 void binarySearchArrayAge(Residents* arr, int size, int minAge, int maxAge, string cityName);
 void binarySearchArrayDist(Residents* arr, int size, double threshold, string cityName);
 
 // Carbon Analysis functions
-void carbonAnalysis(Array* cities, int numCities);
+void carbonAnalysis(Container* cities, int numCities);
 void carbonByModeArray(Residents* array, int size, const string& cityName);
 void carbonByModeList(linkedList& list, const string& cityName);
 void carbonByAgeGroupArray(Residents* array, int size, const string& cityName);
 void carbonByAgeGroupList(linkedList& list, const string& cityName);
-void crossCityComparison(Array* cities, int numCities, const string& structure);
+void crossCityComparison(Container* cities, int numCities, const string& structure);
 
 #endif
 

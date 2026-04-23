@@ -10,6 +10,7 @@
 #include <chrono>
 #include <cmath>
 #include <limits>
+#include <string>
 #include "residents.h"
 
 using namespace std;
@@ -341,7 +342,7 @@ void printComparisonSummary(string cityName, int size) {
 
 
 // Search menu — user selects criteria, algorithm, and structure; logs each run for comparison
-void searchMenu(Array& city) {
+void searchMenu(Container& city) {
     logCount = 0;  // reset experiment log
     bool again = true;
 

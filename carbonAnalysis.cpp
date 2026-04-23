@@ -240,7 +240,7 @@ void carbonByAgeGroupList(linkedList& list, const string& cityName) {
     cout << "\n";
 }
 
-void crossCityComparison(Array* cities, int numCities, const string& structure) {
+void crossCityComparison(Container* cities, int numCities, const string& structure) {
     double cityTotal[3]     = {0};
     int    cityCount[3]     = {0};
     double cityMode[3][6]   = {{0}};
@@ -353,7 +353,7 @@ void crossCityComparison(Array* cities, int numCities, const string& structure) 
     cout << "\n";
 }
 
-void carbonAnalysis(Array* cities, int numCities) {
+void carbonAnalysis(Container* cities, int numCities) {
     int choice;
     bool valid = false;
 

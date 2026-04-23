@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Array citySelection(Array* cities, int size) {    
+Container citySelection(Container* cities, int size) {    
     int selection;
     bool valid = false;
     cout << "\nCity Selection:" << endl;

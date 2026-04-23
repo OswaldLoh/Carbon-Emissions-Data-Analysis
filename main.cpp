@@ -36,7 +36,7 @@ int main() {
         loadCSVList(FILE_C_PATH, ListC);
 
         // Rebuild city container with fresh data
-        Array cities[] = {
+        Container cities[] = {
             {"A", ListA, arrayA, FILE_A_SIZE},
             {"B", ListB, arrayB, FILE_B_SIZE},
             {"C", ListC, arrayC, FILE_C_SIZE}
@@ -65,7 +65,7 @@ int main() {
 
         switch (decision) {
             case 1: {
-                Array selectedCity = citySelection(cities, 4);
+                Container selectedCity = citySelection(cities, 4);
                 string structure = structureSelect();
 
                 if (structure == "Array") {
@@ -83,7 +83,7 @@ int main() {
                 break;
             }
             case 3: {           // Sorting Algorithms
-                Array city = citySelection(cities, 4);
+                Container city = citySelection(cities, 4);
                 string category = sortBy();
                 string structure = structureSelect();
                 string algo = algoSelect();
@@ -91,7 +91,7 @@ int main() {
                 break;
             }
             case 4: {
-                Array city = citySelection(cities, 4);
+                Container city = citySelection(cities, 4);
                 searchMenu(city);
                 break;
             }
