@@ -57,7 +57,6 @@ void sorting(string structure, string algo, Container city, string category) {
             listResidents* sortedHead;
             execTime = measureTime([&]() { sortedHead = mergeListSort(city.list.getHead(), category); });
             city.list.setHead(sortedHead);
-            // Recursive call stack only: O(log n) frames, each frame stores a few pointers
             int logN = 0;
             int temp = city.list.getSize();
             while (temp > 1) { temp /= 2; logN++; }
@@ -247,6 +246,9 @@ void sortBubbleArray(Residents *array, int size, string category) {
                 swap(array[j], array[j + 1]);
                 swapped = true;
             }
+        }
+        if (!swapped) {
+            break;
         }
     }
 }
