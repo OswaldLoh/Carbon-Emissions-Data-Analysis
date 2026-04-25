@@ -313,7 +313,7 @@ void printComparisonSummary(string cityName, int size) {
 
     int arrBytes  = size * (int)sizeof(Residents);
     int listBytes = size * (int)sizeof(listResidents);
-    int ptrBytes  = size * (int)sizeof(listResidents*);
+    int ptrBytes  = size * (int)sizeof(listResidents*);  // next-pointer overhead per node
     int combined  = arrBytes + listBytes;
 
     cout << "  Array      : " << size << " x " << sizeof(Residents)
@@ -354,10 +354,9 @@ void searchMenu(Container& city) {
         cout << "4. Combined: Age Group + Distance (advanced)" << endl;
         int criteria = getInput(1, 4);
 
-        // binary search requires a sortable numeric field (not string/combined criteria)
         cout << "\nAlgorithm:" << endl;
         cout << "1. Linear Search (unsorted data)" << endl;
-        bool canBinary = (criteria == 1 || criteria == 3);
+        bool canBinary = (criteria == 1 || criteria == 3);  // only numeric fields are sortable
         if (canBinary)
             cout << "2. Binary Search (sorts first, Array only)" << endl;
         else
@@ -406,7 +405,7 @@ void searchMenu(Container& city) {
                 linearSearchList(city.list, criteria,
                                  minAge, maxAge, targetMode, threshold, city.name);
         } else {
-            // Binary search — only works on array
+            // linked list has no O(1) index access, so midpoint can't be reached in O(1)
             if (structure != "Array") {
                 cout << "\n  Binary Search cannot work on Linked Lists." << endl;
                 cout << "  (No O(1) random access to midpoint)" << endl;
