@@ -94,11 +94,14 @@ void printRow(int num, string id, int age, string mode,
          << setw(10) << setprecision(2) << (dist * carbon * avg) << endl;
 }
 
-// Prints match count, total comparisons, and execution time below each result table
-void printFooter(int matches, int comps, long long us) {
+// Prints match count, comparisons, execution time, and complexity below each result table
+void printFooter(int matches, int comps, long long us, string timeCom, string spaceCom) {
     cout << string(70, '-') << endl;
-    cout << "  Matches: " << matches << "  |  Comparisons: " << comps
-         << "  |  Time: " << us << " us" << endl;
+    cout << left << setw(20) << "  Matches"        << ": " << matches << endl;
+    cout << left << setw(20) << "  Comparisons"    << ": " << comps << endl;
+    cout << left << setw(20) << "  Execution Time" << ": " << us << " us" << endl;
+    cout << left << setw(20) << "  Time Complexity" << ": " << timeCom << endl;
+    cout << left << setw(20) << "  Space Complexity" << ": " << spaceCom << endl;
     cout << string(70, '=') << endl;
 }
 
@@ -126,7 +129,7 @@ void linearSearchArray(Residents* arr, int size, int criteria,
 
     auto end = chrono::high_resolution_clock::now();
     long long dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
-    printFooter(matches, comps, dur);
+    printFooter(matches, comps, dur, "O(N)", "O(1)");
 
     if (logCount < 20)
         searchLog[logCount++] = {"Array", "Linear", label, matches, comps, dur};
@@ -159,7 +162,7 @@ void linearSearchList(linkedList& list, int criteria,
 
     auto end = chrono::high_resolution_clock::now();
     long long dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
-    printFooter(matches, comps, dur);
+    printFooter(matches, comps, dur, "O(N)", "O(1)");
 
     if (logCount < 20)
         searchLog[logCount++] = {"Linked List", "Linear", label, matches, comps, dur};
@@ -218,10 +221,7 @@ void binarySearchArrayAge(Residents* arr, int size,
 
     auto end = chrono::high_resolution_clock::now();
     long long dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
-    printFooter(matches, comps, dur);
-    cout << "  Sort cost: " << sortTime << " us | Binary search: ~"
-         << comps << " comparisons (log2(" << size << ")="
-         << (int)log2(size)+1 << ")" << endl;
+    printFooter(matches, comps, dur, "O(log N) per query", "O(N)");
 
     delete[] temp;  // free the temporary copy
 
@@ -271,15 +271,7 @@ void binarySearchArrayDist(Residents* arr, int size,
 
     auto end = chrono::high_resolution_clock::now();
     long long dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
-    printFooter(matches, comps, dur);
-
-    cout << "  Sort cost: " << sortTime << " us" << endl;
-    cout << "  Linear Search would need: " << size << " comparisons" << endl;
-    cout << "  Binary Search used:       " << comps
-         << " comparisons (log2(" << size << ") = "
-         << (int)log2(size)+1 << ")" << endl;
-    cout << "  Binary Search is ~" << (comps > 0 ? size/comps : 0)
-         << "x fewer comparisons than Linear" << endl;
+    printFooter(matches, comps, dur, "O(log N) per query", "O(N)");
 
     delete[] temp;  // free the temporary copy
 
@@ -354,6 +346,7 @@ void searchMenu(Container& city) {
         cout << "4. Combined: Age Group + Distance (advanced)" << endl;
         int criteria = getInput(1, 4);
 
+        // binary search requires a sortable numeric field (not string/combined criteria)
         cout << "\nAlgorithm:" << endl;
         cout << "1. Linear Search (unsorted data)" << endl;
         bool canBinary = (criteria == 1 || criteria == 3);  // only numeric fields are sortable
@@ -405,7 +398,7 @@ void searchMenu(Container& city) {
                 linearSearchList(city.list, criteria,
                                  minAge, maxAge, targetMode, threshold, city.name);
         } else {
-            // linked list has no O(1) index access, so midpoint can't be reached in O(1)
+            // Binary search — only works on array
             if (structure != "Array") {
                 cout << "\n  Binary Search cannot work on Linked Lists." << endl;
                 cout << "  (No O(1) random access to midpoint)" << endl;
