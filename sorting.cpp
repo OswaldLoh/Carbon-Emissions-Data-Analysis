@@ -69,8 +69,8 @@ void sorting(string structure, string algo, Container city, string category) {
     cout << "\nExecuted: " << algo << " Sort | " << structure << " | " << "City " << city.name << " | " << "Sort by " << category << endl;
     cout << "Execution time: " << execTime << " microseconds" << std::endl;
     cout << "\n--- Memory Usage ---" << endl;
-    cout << "Data structure memory: " << dataMemory << " bytes" << endl;
-    cout << "Auxiliary space (algorithm): " << auxiliaryMemory << " bytes" << endl;
+    cout << "Input Space: " << dataMemory << " bytes" << endl;
+    cout << "Auxiliary Space (algorithm): " << auxiliaryMemory << " bytes" << endl;
     cout << "Total memory: " << dataMemory + auxiliaryMemory << " bytes" << endl;
 }
 
@@ -94,14 +94,24 @@ listResidents* merge(listResidents* first, listResidents* second, const string& 
 
     if (first == nullptr) return second;
     if (second == nullptr) return first;
-    if (compare(*second, *first)) {
-        first->nextAddress = merge(first->nextAddress, second, category);
-        return first;
-    } else {
-        second->nextAddress = merge(first, second->nextAddress,category);
-        return second;
+
+    listResidents dummy;
+    listResidents* tail = &dummy;
+
+    while (first != nullptr && second != nullptr) {
+        if (compare(*second, *first)) {
+            tail->nextAddress = first;
+            first = first->nextAddress;
+        } else {
+            tail->nextAddress = second;
+            second = second->nextAddress;
+        }
+        tail = tail->nextAddress;
     }
 
+    tail->nextAddress = (first != nullptr) ? first : second;
+
+    return dummy.nextAddress;
 }
 
 listResidents* mergeListSort(listResidents* head, const string& category) {
