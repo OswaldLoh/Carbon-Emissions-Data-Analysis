@@ -27,32 +27,43 @@ void sorting(string structure, string algo, Container city, string category) {
     int execTime;
     size_t dataMemory = 0;
     size_t auxiliaryMemory = 0;
+    string timeCom, spaceCom;
 
     if (structure == "Array") {
         dataMemory = city.size * sizeof(Residents);
         if (algo == "Bubble") {
             execTime = measureTime([&]() { sortBubbleArray(city.array, city.size, category); });
-            auxiliaryMemory = sizeof(Residents); // One temp variable for swapping
+            auxiliaryMemory = sizeof(Residents); 
             printArray(city.array, city.size);
+            spaceCom = "O(1)";
+            timeCom = "O(n)";
         } else if (algo == "Insert") {
             execTime = measureTime([&]() { sortInsertArray(city.array, city.size, category); });
-            auxiliaryMemory = sizeof(Residents); // One key variable for insertion
+            auxiliaryMemory = sizeof(Residents); 
             printArray(city.array, city.size);
+            spaceCom = "O(1)";
+            timeCom = "O(n)";
         } else if (algo == "Merge") {
             execTime = measureTime([&]() { mergeArray(city.array, 0, city.size - 1, category); });
-            auxiliaryMemory = city.size * sizeof(Residents); // Temp arrays at each merge step, peak is n elements
+            auxiliaryMemory = city.size * sizeof(Residents); 
             printArray(city.array, city.size);
+            spaceCom = "O(n)";
+            timeCom = "O(n log n)";
         }
     } else if (structure == "LinkedList") {
         dataMemory = city.list.getSize() * sizeof(listResidents);
         if (algo == "Bubble") {
             execTime = measureTime([&]() { sortBubbleList(city.list, category); });
-            auxiliaryMemory = sizeof(listResidents*) * 3; // Pointer variables for traversal
+            auxiliaryMemory = sizeof(listResidents*) * 3; 
             printList(city.list.getHead());
+            spaceCom = "O(1)";
+            timeCom = "O(n)";
         } else if (algo == "Insert") {
             execTime = measureTime([&]() { sortInsertList(city.list, category); });
-            auxiliaryMemory = sizeof(listResidents*) * 3; // Pointer variables for re-linking
+            auxiliaryMemory = sizeof(listResidents*) * 3;
             printList(city.list.getHead());
+            spaceCom = "O(1)";
+            timeCom = "O(n)";
         } else if (algo == "Merge") {
             listResidents* sortedHead;
             execTime = measureTime([&]() { sortedHead = mergeListSort(city.list.getHead(), category); });
@@ -62,16 +73,24 @@ void sorting(string structure, string algo, Container city, string category) {
             while (temp > 1) { temp /= 2; logN++; }
             auxiliaryMemory = logN * (sizeof(listResidents*) * 3);
             printList(city.list.getHead());
+            spaceCom = "O(log n)";
+            timeCom = "O(n log n)";
         }
     }
 
     fileOutput(city,category,structure);
-    cout << "\nExecuted: " << algo << " Sort | " << structure << " | " << "City " << city.name << " | " << "Sort by " << category << endl;
-    cout << "Execution time: " << execTime << " microseconds" << std::endl;
-    cout << "\n--- Memory Usage ---" << endl;
-    cout << "Input Space: " << dataMemory << " bytes" << endl;
-    cout << "Auxiliary Space (algorithm): " << auxiliaryMemory << " bytes" << endl;
-    cout << "Total memory: " << dataMemory + auxiliaryMemory << " bytes" << endl;
+    cout << "\n========================================================" << endl;
+    cout << "       " << algo << " Sort | " << structure << " | " << "City " << city.name << " | " << "Sort by " << category << endl;
+    cout << "========================================================" << endl;
+    cout << "--------------------< Memory Usage >--------------------" << endl;
+    cout << left << setw(20) << "Input Space"               << ": " << dataMemory << " bytes" << endl;
+    cout << left << setw(20) << "Auxiliary Space "<< ": " << auxiliaryMemory << " bytes" << endl;
+    cout << left << setw(20) << "Total Memory"               << ": " << dataMemory + auxiliaryMemory << " bytes" << endl;
+    cout << left << setw(20) << "Space Complexity" << ": " << spaceCom << endl;
+    cout << "\n---------------------< Performance >--------------------" << endl;
+    cout << left << setw(20) << "Execution Time " << ": " << execTime << " microseconds" << std::endl;
+    cout << left << setw(20) << "Time Complexity" << ": " << timeCom << endl;
+
 }
 
 

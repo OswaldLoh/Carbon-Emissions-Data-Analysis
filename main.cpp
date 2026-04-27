@@ -98,7 +98,7 @@ int main() {
         }
 
         // Ask user if they want to run another operation
-        cout << "\n------------------------------" << endl;
+        cout << "--------------------------------------------------------" << endl;
         cout << "Do you want to perform another operation? (y/n): ";
         cin >> runAgain;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
