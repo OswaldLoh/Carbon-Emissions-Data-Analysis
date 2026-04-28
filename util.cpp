@@ -132,6 +132,40 @@ string algoSelect() {
     return sort;
 }
 
+string stateSelect() {
+    int selection;
+    string state;
+    bool valid = false;
+    cout << "\nPlease choose data state:" << endl;
+    cout << "1. Sorted (Best Case)" << endl;
+    cout << "2. Unsorted (Average Case)" << endl;
+    cout << "3. Reverse Order (Worst Case)" << endl;
+
+    while (!valid) {
+        cout << ">>>   ";
+        cin >> selection;
+        if (cin.fail() || selection > 3 || selection < 1) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please try again.";
+        } else {
+            valid = true;
+        }
+    }
+    switch (selection) {
+        case 1:
+            state = "Sorted";
+            break;
+        case 2:
+            state = "Unsorted";
+            break;
+        case 3:
+            state = "Reverse";
+            break;
+    }
+    return state;
+}
+
 void printArray(Residents* array, int size) {
     cout << "\n-------------------------------------------" << endl;
     cout << left 

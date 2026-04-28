@@ -23,7 +23,7 @@ function<bool(const type&, const type&)> comparator(string category) {
     };
 }
 
-void sorting(string structure, string algo, Container city, string category) {
+void sorting(string structure, string algo, Container city, string category, string state) {
     int execTime;
     size_t dataMemory = 0;
     size_t auxiliaryMemory = 0;

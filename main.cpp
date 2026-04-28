@@ -87,7 +87,8 @@ int main() {
                 string category = sortBy();
                 string structure = structureSelect();
                 string algo = algoSelect();
-                sorting(structure, algo, city, category);
+                string state = stateSelect();
+                sorting(structure, algo, city, category, state);
                 break;
             }
             case 4: {

@@ -65,11 +65,12 @@ struct Container {
 
 void loadCSVList(string filepath, linkedList& List);
 int loadCSVArray(string path, Residents array[]);
+string stateSelect();
 string algoSelect();
 string structureSelect();
 string sortBy();
 Container citySelection(Container* arrays, int size);
-void sorting(string structure, string algo, Container city, string category);
+void sorting(string structure, string algo, Container city, string category, string state);
 void sortBubbleArray(Residents *array, int size, string category);
 void categorizeArray(Residents array[], int size);
 void categorizeList(linkedList& list);
