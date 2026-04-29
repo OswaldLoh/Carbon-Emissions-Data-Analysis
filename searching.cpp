@@ -172,7 +172,7 @@ void linearSearchList(linkedList& list, int criteria,
 // Binary Search — Array (Age) | O(log N) search + O(N log N) pre-sort | O(N) space
 // Sorts a temp copy by age, then finds lower and upper bounds via binary search
 void binarySearchArrayAge(Residents* arr, int size,
-                          int minAge, int maxAge, string cityName) {
+                          int minAge, int maxAge, string cityName, string state) {
 
     string label = "Age " + to_string(minAge) + "-" + to_string(maxAge);
 
@@ -183,7 +183,7 @@ void binarySearchArrayAge(Residents* arr, int size,
     // sort the copy by age (original array is preserved)
     cout << "\n  [Pre-sorting by Age using Merge Sort...]" << endl;
     auto sortStart = chrono::high_resolution_clock::now();
-    mergeArray(temp, 0, size - 1, "Age");
+    mergeArray(temp, 0, size - 1, "Age", state);
     auto sortEnd = chrono::high_resolution_clock::now();
     long long sortTime = chrono::duration_cast<chrono::microseconds>(sortEnd - sortStart).count();
     cout << "  Sort completed in " << sortTime << " us" << endl;
@@ -233,7 +233,7 @@ void binarySearchArrayAge(Residents* arr, int size,
 // Binary Search — Array (Distance) | O(log N) search + O(N log N) pre-sort | O(N) space
 // Sorts a temp copy by distance, then finds the first index exceeding the threshold
 void binarySearchArrayDist(Residents* arr, int size,
-                           double threshold, string cityName) {
+                           double threshold, string cityName, string state) {
 
     string label = "Distance > " + to_string((int)threshold) + " km";
 
@@ -243,7 +243,7 @@ void binarySearchArrayDist(Residents* arr, int size,
 
     cout << "\n  [Pre-sorting by Distance using Merge Sort...]" << endl;
     auto sortStart = chrono::high_resolution_clock::now();
-    mergeArray(temp, 0, size - 1, "Distance");
+    mergeArray(temp, 0, size - 1, "Distance", state);
     auto sortEnd = chrono::high_resolution_clock::now();
     long long sortTime = chrono::duration_cast<chrono::microseconds>(sortEnd - sortStart).count();
     cout << "  Sort completed in " << sortTime << " us" << endl;

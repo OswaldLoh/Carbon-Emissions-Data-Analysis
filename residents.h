@@ -63,30 +63,42 @@ struct Container {
 
 // Functions
 
+
+// File Handling
 void loadCSVList(string filepath, linkedList& List);
 int loadCSVArray(string path, Residents array[]);
+void fileOutput(Container city, string category, string structure);
+
+// Menu Selections
 string stateSelect();
 string algoSelect();
 string structureSelect();
 string sortBy();
 Container citySelection(Container* arrays, int size);
-void sorting(string structure, string algo, Container city, string category, string state);
-void sortBubbleArray(Residents *array, int size, string category);
-void categorizeArray(Residents array[], int size);
-void categorizeList(linkedList& list);
-void sortBubbleList(linkedList& list, string category);
+
+// Printing Functions
 void printArray(Residents* array, int size);
 void printList(listResidents* head);
-void sortInsertArray(Residents* array, int size, string category);
-void sortInsertList(linkedList& list, string category);
-void mergeArray(Residents* array, int indexL, int indexR, string category);
-void mergeSort(Residents* array, int indexL, int indexM, int indexR, string category);
+
+// Time functions
 int measureTime(std::function<void()> func);
+string getTimestamp();
+
+// Sorting Functions
+void sorting(string structure, string algo, Container city, string category, string state);
+void sortBubbleArray(Residents *array, int size, string category, string state);
+void sortBubbleList(linkedList& list, string category, string state);
+void sortInsertArray(Residents* array, int size, string category, string state);
+void sortInsertList(linkedList& list, string category, string state);
+void mergeArray(Residents* array, int indexL, int indexR, string category, string state);
+void mergeSort(Residents* array, int indexL, int indexM, int indexR, string category, string state);
 listResidents* merge(listResidents* first, listResidents* second, const string& category);
 listResidents* split(listResidents* head);
-listResidents* mergeListSort(listResidents* head, const string& category);
-void fileOutput(Container city, string category, string structure);
-string getTimestamp();
+listResidents* mergeListSort(listResidents* head, const string& category, string state);
+
+// Categorization
+void categorizeArray(Residents array[], int size);
+void categorizeList(linkedList& list);
 
 // Searching functions
 void searchMenu(Container& city);

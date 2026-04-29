@@ -8,43 +8,66 @@
 using namespace std;
 
 template <typename type>
-function<bool(const type&, const type&)> comparator(string category) {
-    if (category == "Age") {
+function<bool(const type&, const type&)> comparator(string category, string state) {
+    if (state == "Sorted") {
+        if (category == "Age") {
+            return [](const type& a, const type& b) {
+                return a.age > b.age;
+            };
+        } else if (category == "Distance") {
+            return [](const type& a, const type& b) {
+                return a.distance > b.distance;
+            };
+        }
         return [](const type& a, const type& b) {
-            return a.age > b.age;
+            return a.carbon > b.carbon;
         };
-    } else if (category == "Distance") {
+    } else if (state == "Reverse") {
+        if (category == "Age") {
+            return [](const type& a, const type& b) {
+                return b.age > a.age;
+            };
+        } else if (category == "Distance") {
+            return [](const type& a, const type& b) {
+                return b.distance > a.distance;
+            };
+        }
         return [](const type& a, const type& b) {
-            return a.distance > b.distance;
+            return b.carbon > a.carbon;
         };
     }
-    return [](const type& a, const type& b) {
-        return a.carbon > b.carbon;
-    };
 }
+
 
 void sorting(string structure, string algo, Container city, string category, string state) {
     int execTime;
     size_t dataMemory = 0;
     size_t auxiliaryMemory = 0;
     string timeCom, spaceCom;
+    
+    if (state == "Sorted") {
+        sortBubbleArray(city.array, city.size, category, state);
+        sortBubbleList(city.list,category, state);
+    } else if (state == "Reverse") {
+        
+    }
 
     if (structure == "Array") {
         dataMemory = city.size * sizeof(Residents);
         if (algo == "Bubble") {
-            execTime = measureTime([&]() { sortBubbleArray(city.array, city.size, category); });
+            execTime = measureTime([&]() { sortBubbleArray(city.array, city.size, category, state); });
             auxiliaryMemory = sizeof(Residents); 
             printArray(city.array, city.size);
             spaceCom = "O(1)";
             timeCom = "O(n)";
         } else if (algo == "Insert") {
-            execTime = measureTime([&]() { sortInsertArray(city.array, city.size, category); });
+            execTime = measureTime([&]() { sortInsertArray(city.array, city.size, category, state); });
             auxiliaryMemory = sizeof(Residents); 
             printArray(city.array, city.size);
             spaceCom = "O(1)";
             timeCom = "O(n)";
         } else if (algo == "Merge") {
-            execTime = measureTime([&]() { mergeArray(city.array, 0, city.size - 1, category); });
+            execTime = measureTime([&]() { mergeArray(city.array, 0, city.size - 1, category, state); });
             auxiliaryMemory = city.size * sizeof(Residents); 
             printArray(city.array, city.size);
             spaceCom = "O(n)";
@@ -53,20 +76,20 @@ void sorting(string structure, string algo, Container city, string category, str
     } else if (structure == "LinkedList") {
         dataMemory = city.list.getSize() * sizeof(listResidents);
         if (algo == "Bubble") {
-            execTime = measureTime([&]() { sortBubbleList(city.list, category); });
+            execTime = measureTime([&]() { sortBubbleList(city.list, category, state); });
             auxiliaryMemory = sizeof(listResidents*) * 3; 
             printList(city.list.getHead());
             spaceCom = "O(1)";
             timeCom = "O(n)";
         } else if (algo == "Insert") {
-            execTime = measureTime([&]() { sortInsertList(city.list, category); });
+            execTime = measureTime([&]() { sortInsertList(city.list, category, state); });
             auxiliaryMemory = sizeof(listResidents*) * 3;
             printList(city.list.getHead());
             spaceCom = "O(1)";
             timeCom = "O(n)";
         } else if (algo == "Merge") {
             listResidents* sortedHead;
-            execTime = measureTime([&]() { sortedHead = mergeListSort(city.list.getHead(), category); });
+            execTime = measureTime([&]() { sortedHead = mergeListSort(city.list.getHead(), category, state); });
             city.list.setHead(sortedHead);
             int logN = 0;
             int temp = city.list.getSize();
@@ -108,8 +131,8 @@ listResidents* split(listResidents* head) {
     return tempHead;
 }
 
-listResidents* merge(listResidents* first, listResidents* second, const string& category) {
-    auto compare = comparator<listResidents>(category);
+listResidents* merge(listResidents* first, listResidents* second, const string& category, string state) {
+    auto compare = comparator<listResidents>(category, state);
 
     if (first == nullptr) return second;
     if (second == nullptr) return first;
@@ -133,29 +156,29 @@ listResidents* merge(listResidents* first, listResidents* second, const string& 
     return dummy.nextAddress;
 }
 
-listResidents* mergeListSort(listResidents* head, const string& category) {
+listResidents* mergeListSort(listResidents* head, const string& category, string state) {
     if (head == nullptr || head->nextAddress == nullptr) {
         return head;
     }
     listResidents* second = split(head);
-    head = mergeListSort(head, category);
-    second = mergeListSort(second, category);
+    head = mergeListSort(head, category, state);
+    second = mergeListSort(second, category, state);
     return merge(head, second, category);
 }
 
 
 
-void mergeArray(Residents* array, int indexL, int indexR, string category) {
+void mergeArray(Residents* array, int indexL, int indexR, string category, string state) {
     if (indexL < indexR) {
         int indexM = indexL + (indexR - indexL) / 2;
-        mergeArray(array, indexL, indexM, category);
-        mergeArray(array, indexM+1, indexR, category);  
-        mergeSort(array, indexL, indexM, indexR, category); 
+        mergeArray(array, indexL, indexM, category, state);
+        mergeArray(array, indexM+1, indexR, category, state); 
+        mergeSort(array, indexL, indexM, indexR, category, state); 
     }
 }
 
-void mergeSort(Residents* array, int indexL, int indexM, int indexR, string category) {
-    auto compare = comparator<Residents>(category);
+void mergeSort(Residents* array, int indexL, int indexM, int indexR, string category, string state) {
+    auto compare = comparator<Residents>(category,state);
     int leftSize = indexM - indexL + 1;
     int rightSize = indexR - indexM;
 
@@ -182,10 +205,10 @@ void mergeSort(Residents* array, int indexL, int indexM, int indexR, string cate
     }
 }
 
-void sortInsertList(linkedList& list, string category) {
+void sortInsertList(linkedList& list, string category, string state) {
     listResidents* head = list.getHead();
     int size = list.getSize();
-    auto compare = comparator<listResidents>(category);
+    auto compare = comparator<listResidents>(category,state);
     if (!head || !head->nextAddress) return;
     listResidents* sorted = nullptr;
     listResidents* current = head;
@@ -209,8 +232,8 @@ void sortInsertList(linkedList& list, string category) {
     list.setHead(sorted);
 }
 
-void sortInsertArray(Residents* array, int size, string category) {
-    auto compare = comparator<Residents>(category);
+void sortInsertArray(Residents* array, int size, string category, string state) {
+    auto compare = comparator<Residents>(category, state);
     bool swapped = false;
     for (int i=1; i<size; i++) {
         Residents key = array[i];
@@ -224,12 +247,12 @@ void sortInsertArray(Residents* array, int size, string category) {
     }
 }
 
-void sortBubbleList(linkedList& list, string category) {
+void sortBubbleList(linkedList& list, string category, string state) {
     listResidents* head = list.getHead();
     int size = list.getSize();
     int i = 0;
 
-    auto compare = comparator<listResidents>(category);
+    auto compare = comparator<listResidents>(category, state);
 
     while (i < size) {
         bool swapped = false;
@@ -265,8 +288,8 @@ void sortBubbleList(linkedList& list, string category) {
     }
 }
 
-void sortBubbleArray(Residents *array, int size, string category) {
-    auto compare = comparator<Residents>(category);
+void sortBubbleArray(Residents *array, int size, string category, string state) {
+    auto compare = comparator<Residents>(category, state);
     bool swapped;
     for (int i = 0; i < size-1; i++) {
         swapped = false;
