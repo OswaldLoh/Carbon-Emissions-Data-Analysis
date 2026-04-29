@@ -334,7 +334,7 @@ void printComparisonSummary(string cityName, int size) {
 
 
 // Search menu — user selects criteria, algorithm, and structure; logs each run for comparison
-void searchMenu(Container& city) {
+void searchMenu(Container& city, string state) {
     logCount = 0;  // reset experiment log
     bool again = true;
 
@@ -406,9 +406,9 @@ void searchMenu(Container& city) {
                 linearSearchList(city.list, criteria,
                                  minAge, maxAge, targetMode, threshold, city.name);
             } else if (criteria == 1)
-                binarySearchArrayAge(city.array, city.size, minAge, maxAge, city.name);
+                binarySearchArrayAge(city.array, city.size, minAge, maxAge, city.name, state);
             else
-                binarySearchArrayDist(city.array, city.size, threshold, city.name);
+                binarySearchArrayDist(city.array, city.size, threshold, city.name, state);
         }
 
         cout << "\nRun another search on City " << city.name

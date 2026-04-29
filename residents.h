@@ -92,7 +92,7 @@ void sortInsertArray(Residents* array, int size, string category, string state);
 void sortInsertList(linkedList& list, string category, string state);
 void mergeArray(Residents* array, int indexL, int indexR, string category, string state);
 void mergeSort(Residents* array, int indexL, int indexM, int indexR, string category, string state);
-listResidents* merge(listResidents* first, listResidents* second, const string& category);
+listResidents* merge(listResidents* first, listResidents* second, const string& category, string state);
 listResidents* split(listResidents* head);
 listResidents* mergeListSort(listResidents* head, const string& category, string state);
 
@@ -101,11 +101,11 @@ void categorizeArray(Residents array[], int size);
 void categorizeList(linkedList& list);
 
 // Searching functions
-void searchMenu(Container& city);
+void searchMenu(Container& city, string state);
 void linearSearchArray(Residents* arr, int size, int criteria, int minAge, int maxAge, string targetMode, double threshold, string cityName);
 void linearSearchList(linkedList& list, int criteria, int minAge, int maxAge, string targetMode, double threshold, string cityName);
-void binarySearchArrayAge(Residents* arr, int size, int minAge, int maxAge, string cityName);
-void binarySearchArrayDist(Residents* arr, int size, double threshold, string cityName);
+void binarySearchArrayAge(Residents* arr, int size, int minAge, int maxAge, string cityName, string state);
+void binarySearchArrayDist(Residents* arr, int size, double threshold, string cityName, string state);
 
 // Carbon Analysis functions
 void carbonAnalysis(Container* cities, int numCities);
@@ -114,6 +114,9 @@ void carbonByModeList(linkedList& list, const string& cityName);
 void carbonByAgeGroupArray(Residents* array, int size, const string& cityName);
 void carbonByAgeGroupList(linkedList& list, const string& cityName);
 void crossCityComparison(Container* cities, int numCities, const string& structure);
+
+// Benchmark (developer option)
+void runBenchmark();
 
 #endif
 

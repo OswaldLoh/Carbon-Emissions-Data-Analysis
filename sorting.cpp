@@ -25,17 +25,29 @@ function<bool(const type&, const type&)> comparator(string category, string stat
     } else if (state == "Reverse") {
         if (category == "Age") {
             return [](const type& a, const type& b) {
-                return b.age > a.age;
+                return a.age < b.age;
             };
         } else if (category == "Distance") {
             return [](const type& a, const type& b) {
-                return b.distance > a.distance;
+                return a.distance < b.distance;
             };
         }
         return [](const type& a, const type& b) {
-            return b.carbon > a.carbon;
+            return a.carbon < b.carbon;
         };
     }
+    if (category == "Age") {
+        return [](const type& a, const type& b) {
+            return a.age > b.age;
+        };
+    } else if (category == "Distance") {
+        return [](const type& a, const type& b) {
+            return a.distance > b.distance;
+        };
+    }
+    return [](const type& a, const type& b) {
+        return a.carbon > b.carbon;
+    };
 }
 
 
@@ -45,29 +57,32 @@ void sorting(string structure, string algo, Container city, string category, str
     size_t auxiliaryMemory = 0;
     string timeCom, spaceCom;
     
-    if (state == "Sorted") {
+    if (state == "Sorted" || state == "Reverse") {
         sortBubbleArray(city.array, city.size, category, state);
-        sortBubbleList(city.list,category, state);
+        sortBubbleList(city.list, category, state);
     } else if (state == "Reverse") {
-        
+        sortBubbleArray(city.array, city.size, category, state);
+        sortBubbleList(city.list, category, state);
     }
+
+    string benchState = (state == "Reverse") ? "Sorted" : state;
 
     if (structure == "Array") {
         dataMemory = city.size * sizeof(Residents);
         if (algo == "Bubble") {
-            execTime = measureTime([&]() { sortBubbleArray(city.array, city.size, category, state); });
+            execTime = measureTime([&]() { sortBubbleArray(city.array, city.size, category, benchState); });
             auxiliaryMemory = sizeof(Residents); 
             printArray(city.array, city.size);
             spaceCom = "O(1)";
             timeCom = "O(n)";
         } else if (algo == "Insert") {
-            execTime = measureTime([&]() { sortInsertArray(city.array, city.size, category, state); });
+            execTime = measureTime([&]() { sortInsertArray(city.array, city.size, category, benchState); });
             auxiliaryMemory = sizeof(Residents); 
             printArray(city.array, city.size);
             spaceCom = "O(1)";
             timeCom = "O(n)";
         } else if (algo == "Merge") {
-            execTime = measureTime([&]() { mergeArray(city.array, 0, city.size - 1, category, state); });
+            execTime = measureTime([&]() { mergeArray(city.array, 0, city.size - 1, category, benchState); });
             auxiliaryMemory = city.size * sizeof(Residents); 
             printArray(city.array, city.size);
             spaceCom = "O(n)";
@@ -76,20 +91,20 @@ void sorting(string structure, string algo, Container city, string category, str
     } else if (structure == "LinkedList") {
         dataMemory = city.list.getSize() * sizeof(listResidents);
         if (algo == "Bubble") {
-            execTime = measureTime([&]() { sortBubbleList(city.list, category, state); });
+            execTime = measureTime([&]() { sortBubbleList(city.list, category, benchState); });
             auxiliaryMemory = sizeof(listResidents*) * 3; 
             printList(city.list.getHead());
             spaceCom = "O(1)";
             timeCom = "O(n)";
         } else if (algo == "Insert") {
-            execTime = measureTime([&]() { sortInsertList(city.list, category, state); });
+            execTime = measureTime([&]() { sortInsertList(city.list, category, benchState); });
             auxiliaryMemory = sizeof(listResidents*) * 3;
             printList(city.list.getHead());
             spaceCom = "O(1)";
             timeCom = "O(n)";
         } else if (algo == "Merge") {
             listResidents* sortedHead;
-            execTime = measureTime([&]() { sortedHead = mergeListSort(city.list.getHead(), category, state); });
+            execTime = measureTime([&]() { sortedHead = mergeListSort(city.list.getHead(), category, benchState); });
             city.list.setHead(sortedHead);
             int logN = 0;
             int temp = city.list.getSize();
@@ -163,7 +178,7 @@ listResidents* mergeListSort(listResidents* head, const string& category, string
     listResidents* second = split(head);
     head = mergeListSort(head, category, state);
     second = mergeListSort(second, category, state);
-    return merge(head, second, category);
+    return merge(head, second, category, state);
 }
 
 
