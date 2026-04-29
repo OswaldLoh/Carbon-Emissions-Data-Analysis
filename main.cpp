@@ -49,6 +49,7 @@ int main() {
         cout << "  2. Carbon Analysis" << endl;
         cout << "  3. Sorting" << endl;
         cout << "  4. Searching" << endl;
+        cout << "  5. Sorting Benchmark Tool" << endl;
         cout << "==============================" << endl;
 
         while (!valid) {
