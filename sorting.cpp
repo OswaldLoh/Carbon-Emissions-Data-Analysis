@@ -74,19 +74,19 @@ void sorting(string structure, string algo, Container city, string category, str
             auxiliaryMemory = sizeof(Residents); 
             printArray(city.array, city.size);
             spaceCom = "O(1)";
-            timeCom = "O(n)";
+            timeCom = "O(N^2)";
         } else if (algo == "Insert") {
             execTime = measureTime([&]() { sortInsertArray(city.array, city.size, category, benchState); });
             auxiliaryMemory = sizeof(Residents); 
             printArray(city.array, city.size);
             spaceCom = "O(1)";
-            timeCom = "O(n)";
+            timeCom = "O(N^2)";
         } else if (algo == "Merge") {
             execTime = measureTime([&]() { mergeArray(city.array, 0, city.size - 1, category, benchState); });
             auxiliaryMemory = city.size * sizeof(Residents); 
             printArray(city.array, city.size);
             spaceCom = "O(n)";
-            timeCom = "O(n log n)";
+            timeCom = "O(N log N)";
         }
     } else if (structure == "LinkedList") {
         dataMemory = city.list.getSize() * sizeof(listResidents);
@@ -95,13 +95,13 @@ void sorting(string structure, string algo, Container city, string category, str
             auxiliaryMemory = sizeof(listResidents*) * 3; 
             printList(city.list.getHead());
             spaceCom = "O(1)";
-            timeCom = "O(n)";
+            timeCom = "O(N^2)";
         } else if (algo == "Insert") {
             execTime = measureTime([&]() { sortInsertList(city.list, category, benchState); });
             auxiliaryMemory = sizeof(listResidents*) * 3;
             printList(city.list.getHead());
             spaceCom = "O(1)";
-            timeCom = "O(n)";
+            timeCom = "O(N^2)";
         } else if (algo == "Merge") {
             listResidents* sortedHead;
             execTime = measureTime([&]() { sortedHead = mergeListSort(city.list.getHead(), category, benchState); });
@@ -111,8 +111,8 @@ void sorting(string structure, string algo, Container city, string category, str
             while (temp > 1) { temp /= 2; logN++; }
             auxiliaryMemory = logN * (sizeof(listResidents*) * 3);
             printList(city.list.getHead());
-            spaceCom = "O(log n)";
-            timeCom = "O(n log n)";
+            spaceCom = "O(log N)";
+            timeCom = "O(N log N)";
         }
     }
 
