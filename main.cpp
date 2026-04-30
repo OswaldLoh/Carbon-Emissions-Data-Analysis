@@ -94,8 +94,7 @@ int main() {
             }
             case 4: {
                 Container city = citySelection(cities, 4);
-                string state = stateSelect();
-                searchMenu(city, state);
+                searchMenu(city, "Unsorted");
                 break;
             }
             case 5: {           // [DEV] Benchmark

@@ -118,7 +118,7 @@ void sorting(string structure, string algo, Container city, string category, str
 
     fileOutput(city,category,structure);
     cout << "\n========================================================" << endl;
-    cout << "       " << algo << " Sort | " << structure << " | " << "City " << city.name << " | " << "Sort by " << category << endl;
+    cout << algo << " Sort | " << structure << " | " << "City " << city.name << " | " << "Sort by " << category << endl;
     cout << "========================================================" << endl;
     cout << "--------------------< Memory Usage >--------------------" << endl;
     cout << left << setw(20) << "Input Space"               << ": " << dataMemory << " bytes" << endl;
