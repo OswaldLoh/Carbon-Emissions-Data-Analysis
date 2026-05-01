@@ -15,11 +15,11 @@
 
 using namespace std;
 
-// -- Experiment logging: stores timing results for comparison table --
+// stores timing results for comparison table 
 struct SearchStats {
     string structure, algorithm, criteria;
     int matches, comparisons;
-    long long timeUs;
+    long long timeNs;  // nanoseconds: fine-grained enough to show binary search's sub-microsecond speed on small datasets
 };
 SearchStats searchLog[20];
 int logCount = 0;
@@ -36,7 +36,7 @@ const string AGE_LABELS[] = {
 };
 const string MODES[] = {"Car", "Bus", "Bicycle", "Walking", "School Bus", "Carpool"};
 
-// --- Shared input validator (avoids repeating the same while loop in every menu) ---
+// Shared input validator 
 int getInput(int min, int max) {
     int val;
     while (true) {
@@ -70,7 +70,7 @@ string criteriaLabel(int criteria, int minAge, int maxAge,
            + " AND Dist > " + to_string((int)threshold) + "km";
 }
 
-// --- Table printing helpers ---
+// Table printing helpers
 void printHeader(string city, string algo, string structure, string criteria) {
     cout << "\n" << string(70, '=') << endl;
     cout << "  City " << city << " | " << algo << " | " << structure << endl;
@@ -95,40 +95,47 @@ void printRow(int num, string id, int age, string mode,
 }
 
 // Prints match count, comparisons, execution time, and complexity below each result table
-void printFooter(int matches, int comps, long long us, string timeCom, string spaceCom) {
+void printFooter(int matches, int comps, long long ns, string timeCom, string spaceCom) {
     cout << string(70, '-') << endl;
     cout << left << setw(20) << "  Matches"        << ": " << matches << endl;
     cout << left << setw(20) << "  Comparisons"    << ": " << comps << endl;
-    cout << left << setw(20) << "  Execution Time" << ": " << us << " us" << endl;
+    cout << left << setw(20) << "  Execution Time" << ": " << ns << " ns" << endl;
     cout << left << setw(20) << "  Time Complexity" << ": " << timeCom << endl;
     cout << left << setw(20) << "  Space Complexity" << ": " << spaceCom << endl;
     cout << string(70, '=') << endl;
 }
 
 
-// Linear Search — Array | O(N) time, O(1) space | works on unsorted data
+// Linear Search — Array (works on unsorted data)
 void linearSearchArray(Residents* arr, int size, int criteria,
                        int minAge, int maxAge, string targetMode,
                        double threshold, string cityName) {
 
     string label = criteriaLabel(criteria, minAge, maxAge, targetMode, threshold);
-    printHeader(cityName, "Linear Search", "Array", label);
+
 
     int matches = 0, comps = 0;
+    int matchIdx[size];  // store indices of matches to print after timing
     auto start = chrono::high_resolution_clock::now();
 
     for (int i = 0; i < size; i++) {
         comps++;
         if (isMatch(criteria, arr[i].age, arr[i].mode, arr[i].distance,
                     minAge, maxAge, targetMode, threshold)) {
-            matches++;
-            printRow(matches, arr[i].ID, arr[i].age, arr[i].mode,
-                     arr[i].distance, arr[i].carbon, arr[i].avg);
+            matchIdx[matches++] = i;
         }
     }
 
     auto end = chrono::high_resolution_clock::now();
-    long long dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    long long dur = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+    // End timed region 
+
+    printHeader(cityName, "Linear Search", "Array", label);
+    for (int i = 0; i < matches; i++) {
+        int idx = matchIdx[i];
+        printRow(i + 1, arr[idx].ID, arr[idx].age, arr[idx].mode,
+                 arr[idx].distance, arr[idx].carbon, arr[idx].avg);
+    }
     printFooter(matches, comps, dur, "O(N)", "O(1)");
 
     if (logCount < 20)
@@ -136,15 +143,16 @@ void linearSearchArray(Residents* arr, int size, int criteria,
 }
 
 
-// Linear Search — Linked List | O(N) time, O(1) space | traverses nextAddress pointers
+// Linear Search — Linked List (traverses nextAddress pointers)
 void linearSearchList(linkedList& list, int criteria,
                       int minAge, int maxAge, string targetMode,
                       double threshold, string cityName) {
 
     string label = criteriaLabel(criteria, minAge, maxAge, targetMode, threshold);
-    printHeader(cityName, "Linear Search", "Linked List", label);
+
 
     int matches = 0, comps = 0;
+    listResidents* matchPtrs[10000];  // store matched node pointers to print after timing
     auto start = chrono::high_resolution_clock::now();
 
     // traverse all nodes from head to end
@@ -153,15 +161,20 @@ void linearSearchList(linkedList& list, int criteria,
         comps++;
         if (isMatch(criteria, curr->age, curr->mode, curr->distance,
                     minAge, maxAge, targetMode, threshold)) {
-            matches++;
-            printRow(matches, curr->ID, curr->age, curr->mode,
-                     curr->distance, curr->carbon, curr->avg);
+            matchPtrs[matches++] = curr;
         }
         curr = curr->nextAddress;
     }
 
     auto end = chrono::high_resolution_clock::now();
-    long long dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    long long dur = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+    // End timed region
+
+    printHeader(cityName, "Linear Search", "Linked List", label);
+    for (int i = 0; i < matches; i++) {
+        listResidents* n = matchPtrs[i];
+        printRow(i + 1, n->ID, n->age, n->mode, n->distance, n->carbon, n->avg);
+    }
     printFooter(matches, comps, dur, "O(N)", "O(1)");
 
     if (logCount < 20)
@@ -169,7 +182,7 @@ void linearSearchList(linkedList& list, int criteria,
 }
 
 
-// Binary Search — Array (Age) | O(log N) search + O(N log N) pre-sort | O(N) space
+// Binary Search — Array (Age) 
 // Sorts a temp copy by age, then finds lower and upper bounds via binary search
 void binarySearchArrayAge(Residents* arr, int size,
                           int minAge, int maxAge, string cityName, string state) {
@@ -188,9 +201,8 @@ void binarySearchArrayAge(Residents* arr, int size,
     long long sortTime = chrono::duration_cast<chrono::microseconds>(sortEnd - sortStart).count();
     cout << "  Sort completed in " << sortTime << " us" << endl;
 
-    printHeader(cityName, "Binary Search", "Array (Sorted)", label);
-
     int matches = 0, comps = 0;
+
     auto start = chrono::high_resolution_clock::now();
 
     // find lower bound: first index where age >= minAge
@@ -212,15 +224,16 @@ void binarySearchArrayAge(Residents* arr, int size,
         else hi = mid - 1;
     }
 
-    // print all residents within the located range
-    for (int i = lower; i <= upper && lower <= upper; i++) {
-        matches++;
-        printRow(matches, temp[i].ID, temp[i].age, temp[i].mode,
-                 temp[i].distance, temp[i].carbon, temp[i].avg);
-    }
+    if (lower <= upper) matches = upper - lower + 1;
 
     auto end = chrono::high_resolution_clock::now();
-    long long dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    long long dur = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+    // End timed region 
+
+    printHeader(cityName, "Binary Search", "Array (Sorted)", label);
+    for (int i = lower; i <= upper && lower <= upper; i++)
+        printRow(i - lower + 1, temp[i].ID, temp[i].age, temp[i].mode,
+                 temp[i].distance, temp[i].carbon, temp[i].avg);
     printFooter(matches, comps, dur, "O(log N) per query", "O(N)");
 
     delete[] temp;  // free the temporary copy
@@ -230,7 +243,7 @@ void binarySearchArrayAge(Residents* arr, int size,
 }
 
 
-// Binary Search — Array (Distance) | O(log N) search + O(N log N) pre-sort | O(N) space
+// Binary Search — Array (Distance) 
 // Sorts a temp copy by distance, then finds the first index exceeding the threshold
 void binarySearchArrayDist(Residents* arr, int size,
                            double threshold, string cityName, string state) {
@@ -248,9 +261,8 @@ void binarySearchArrayDist(Residents* arr, int size,
     long long sortTime = chrono::duration_cast<chrono::microseconds>(sortEnd - sortStart).count();
     cout << "  Sort completed in " << sortTime << " us" << endl;
 
-    printHeader(cityName, "Binary Search", "Array (Sorted)", label);
-
     int matches = 0, comps = 0;
+
     auto start = chrono::high_resolution_clock::now();
 
     // find first index where distance exceeds the threshold (lower bound)
@@ -262,15 +274,16 @@ void binarySearchArrayDist(Residents* arr, int size,
         else lo = mid + 1;
     }
 
-    // all elements from boundary to end exceed the threshold
-    for (int i = boundary; i < size; i++) {
-        matches++;
-        printRow(matches, temp[i].ID, temp[i].age, temp[i].mode,
-                 temp[i].distance, temp[i].carbon, temp[i].avg);
-    }
+    matches = size - boundary;  // all elements from boundary to end exceed the threshold
 
     auto end = chrono::high_resolution_clock::now();
-    long long dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    long long dur = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+    // End timed region 
+
+    printHeader(cityName, "Binary Search", "Array (Sorted)", label);
+    for (int i = boundary; i < size; i++)
+        printRow(i - boundary + 1, temp[i].ID, temp[i].age, temp[i].mode,
+                 temp[i].distance, temp[i].carbon, temp[i].avg);
     printFooter(matches, comps, dur, "O(log N) per query", "O(N)");
 
     delete[] temp;  // free the temporary copy
@@ -288,7 +301,7 @@ void printComparisonSummary(string cityName, int size) {
     cout << string(80, '=') << endl;
     cout << left << setw(14) << "Structure" << setw(10) << "Algorithm"
          << setw(26) << "Criteria" << setw(10) << "Matches"
-         << setw(12) << "Comparisons" << setw(8) << "Time(us)" << endl;
+         << setw(12) << "Comparisons" << setw(8) << "Time(ns)" << endl;
     cout << string(80, '-') << endl;
     for (int i = 0; i < logCount; i++) {
         cout << left << setw(14) << searchLog[i].structure
@@ -296,10 +309,10 @@ void printComparisonSummary(string cityName, int size) {
              << setw(26) << searchLog[i].criteria
              << setw(10) << searchLog[i].matches
              << setw(12) << searchLog[i].comparisons
-             << setw(8)  << searchLog[i].timeUs << endl;
+             << setw(8)  << searchLog[i].timeNs << endl;
     }
 
-    // --- Memory Usage Analysis ---
+    //  Memory Usage Analysis 
     cout << string(80, '-') << endl;
     cout << "  MEMORY USAGE (both structures loaded simultaneously):" << endl;
 
