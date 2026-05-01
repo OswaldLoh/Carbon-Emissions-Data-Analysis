@@ -35,44 +35,4 @@ int loadCSVArray(string path, Residents array[]) {
     return index;
 }
 
-string getTimestamp() {
-    auto now = chrono::system_clock::now();
-    time_t current_time = chrono::system_clock::to_time_t(now);
-    stringstream timestamp;
-    timestamp << put_time(localtime(&current_time), "%Y%m%d_%H%M%S");
-    return timestamp.str();
-}
-
-void fileOutput(Container city, string category, string structure) {
-    
-    string directory = "Output";
-    string timestamp = getTimestamp();
-    string filename = "City" + city.name + "_sortBy" + category + "_" + timestamp + ".csv";
-    path fullPath = path(directory) / filename;
-    ofstream outFile(fullPath.string());
-
-    outFile << "ResidentID,Age,ModeOfTransport,DailyDistance (km),CarbonEmissionFactor(kg CO?/km) ,Average Day per Month\n";
-    if (structure == "Array") {
-        for (int i=0; i < city.size; i++) {
-            outFile << city.array[i].ID << ","
-                    << city.array[i].age << ","
-                    << city.array[i].mode << ","
-                    << city.array[i].distance << ","
-                    << city.array[i].carbon << ","
-                    << city.array[i].avg << endl;
-        }
-    } else {
-        listResidents* current = city.list.getHead();
-        while (current != nullptr) {
-            outFile << current->ID << ","
-                    << current->age << ","
-                    << current->mode << ","
-                    << current->distance << ","
-                    << current->carbon << ","
-                    << current->avg << endl;
-            current = current->nextAddress;
-        }
-    }
-    outFile.close();
-}
 

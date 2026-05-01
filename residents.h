@@ -67,7 +67,6 @@ struct Container {
 // File Handling
 void loadCSVList(string filepath, linkedList& List);
 int loadCSVArray(string path, Residents array[]);
-void fileOutput(Container city, string category, string structure);
 
 // Menu Selections
 string stateSelect();
@@ -82,7 +81,6 @@ void printList(listResidents* head);
 
 // Time functions
 int measureTime(std::function<void()> func);
-string getTimestamp();
 
 // Sorting Functions
 void sorting(string structure, string algo, Container city, string category, string state);
