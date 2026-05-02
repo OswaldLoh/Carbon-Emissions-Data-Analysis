@@ -2,6 +2,7 @@
 #include <limits>
 #include "residents.h"
 
+// Ensure directory is in \DataStructures
 // To run the code, enter in terminal:
 // g++ *.cpp -o run   
 // ./run.exe
